@@ -5,7 +5,7 @@ import { createBrowserHistory } from 'history'; // * note on history
 
 import styles from "./pages/App.module.scss";
 import Header from "./container/Header";
-import StakingContainer from "./container/AllVaults"
+import AllVaults from "./container/AllVaults"
 import UsdcVault from "./container/UsdcVault"
 import BtcVault from "./container/BtcVault"
 import EthVault from "./container/EthVault"
@@ -72,7 +72,7 @@ export default function App() {
                         <Header />
                         <Switch>
                             <Route path="/" exact>
-                                <StakingContainer />
+                                <AllVaults />
                             </Route>
                             <Route path="/UsdcVault" exact>
                                 <UsdcVault />
