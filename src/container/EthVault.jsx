@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import '../App.css'
 import TokenAbi from '../config/TokenAbi.json'
 import StakingAbi from '../config/StakingAbi.json'
@@ -18,7 +20,7 @@ const EthVault = () => {
   let [confirming1, setConfirming1] = useState(false);
   let [confirming2, setConfirming2] = useState(false);
   const StakingAddress = "0x12192270ff21EdfB9c39b9597406c7D92f349312";
-  const TokenAddress = "0x31d72768a4E9030D3CC8d5d0d76FCEC54d47ecE4";
+  const TokenAddress = "0x3715872e527FD578C54bc9028DeD0ad237136D0E";
 
   const { switchNetwork } = useSwitchNetwork()
 
@@ -265,10 +267,14 @@ const EthVault = () => {
                     <section className="DepositBoxHeader">
                       <p className="ContractContentTextTitle">ETH Vault</p>
                     </section>
-                    <div className='StakingContents'>
-                      <div className='PlanBox'>
-                        <p className="ContractContentTextTitlePlan">Deposit</p>
-                        <div className='StakingBoxs'>
+                    {/* <div className='StakingContents'> */}
+                    <Tabs className="TabContainer">
+                      <TabList className="TabList">
+                        <Tab className="TabTitle1">Deposit</Tab>
+                        <Tab className="TabTitle2">Withdraw</Tab>
+                      </TabList>
+                      <TabPanel>
+                        <div className='TabContents'>
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
@@ -278,17 +284,14 @@ const EthVault = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>APY : </p>
-                              <p className='Text1'>&nbsp; {Number(apy1).toFixed(2)}  %</p>
+                              {/* <p className='Text1'>&nbsp; {Number(apy1).toFixed(2)}  %</p> */}
+                              <p className='Text1'>&nbsp; 17  %</p>
                             </div>
                           </div>
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Your Staked Amount : </p>
                               <p className='Text1'>&nbsp; {userAmount1} ETH</p>
-                            </div>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Reward Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards1.toFixed(2)} ETH</p>
                             </div>
                           </div>
                           <section className='inputPanel'>
@@ -302,7 +305,7 @@ const EthVault = () => {
                                 value={tokenAmount1}
                               />
                             </section>
-                            <p onClick={() => setMaxAmount(1)} className="MaxButton">Max</p>
+                            <div onClick={() => setMaxAmount(1)} className="MaxButton">Max</div>
                           </section>
                           {Number(tokenAmount1) > Number(allowance) ?
                             <section className="LockBox">
@@ -364,10 +367,9 @@ const EthVault = () => {
                             </>
                           }
                         </div>
-                      </div>
-                      <div className='PlanBox'>
-                        <p class="ContractContentTextTitlePlan">Withdraw</p>
-                        <div className='StakingBoxs'>
+                      </TabPanel>
+                      <TabPanel>
+                        <div className='TabContents'>
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
@@ -377,14 +379,18 @@ const EthVault = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>APY : </p>
-                              <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p>
+                              {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
+                              <p className='Text1'>&nbsp; 17 %</p>
+                            </div>
+                          </div>
+                          <div className='StakingBox'>
+                            <div className='StakingInfo'>
+                              <p className='HeaderText'>Withdraw Fee : </p>
+                              {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
+                              <p className='Text1'>&nbsp; 0.75 %</p>
                             </div>
                           </div>
                           <div className='StakingBox1'>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userAmount2} ETH</p>
-                            </div>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Pending Reward Amount : </p>
                               <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} ETH</p>
@@ -401,7 +407,7 @@ const EthVault = () => {
                                 value={tokenAmount2}
                               />
                             </section>
-                            <p onClick={() => setMaxAmount(2)} className="MaxButton">Max</p>
+                            <div onClick={() => setMaxAmount(2)} className="MaxButton">Max</div>
                           </section>
                           {Number(tokenAmount2) > Number(allowance) ?
                             <section className="LockBox">
@@ -435,7 +441,7 @@ const EthVault = () => {
                                 {confirming2 === false ?
                                   <>
                                     <section className="claimBox">
-                                      <button disabled={tokenAmount2 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount2, 2)} className="LockButton">Stake ETH Now!</button>
+                                      <button disabled={tokenAmount2 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount2, 2)} className="LockButton">Withdraw ETH Now!</button>
                                       {Number(userPendingRewards2) > 0 ?
                                         <button disabled={false} onClick={() => onTokenClaim(2)} className="LockButton">Claim ETH Now!</button>
                                         :
@@ -464,8 +470,9 @@ const EthVault = () => {
                             </>
                           }
                         </div>
-                      </div>
-                    </div>
+                      </TabPanel>
+                    </Tabs>
+                    {/* </div> */}
                   </section>
 
                 </>
