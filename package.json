@@ -21,6 +21,7 @@
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^3.0.0",
     "react-spinners": "^0.13.8",
+    "react-tabs": "^6.0.2",
     "react-transition-group": "^4.4.5",
     "react-zoom-pan-pinch": "^2.2.1",
     "universal-cookie": "^4.0.4",

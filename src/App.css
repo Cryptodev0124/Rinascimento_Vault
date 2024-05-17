@@ -196,8 +196,9 @@ div.account-center-actions>div {
 
 @media screen and (max-width: 750px) {
     body {
-        overflow: unset;
-        overflow-x: hidden;
+        /* overflow: unset;
+        overflow-x: hidden; */
+        width: 100%;
     }
 
     section {

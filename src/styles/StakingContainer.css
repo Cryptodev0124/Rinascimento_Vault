@@ -266,7 +266,7 @@
 
 
 .GlobalContainer {
-    background-color: #2a2828;
+    /* background-color: #2a2828; */
     background-size: cover;
     color: white;
     width: auto;
@@ -295,7 +295,7 @@
     
     text-wrap: nowrap;
     padding-left: 30px;
-    padding-right: 30px;
+    padding-right: 0px;
 }
 
 .inputPanelHeader {
@@ -452,6 +452,80 @@ input[type=number] {
     display: flex;
 }
 
+.TabContainer {
+    border: 1px solid rgb(229 229 229 / 10%);
+    border-radius: 1rem;
+    background: linear-gradient(rgba(0, 173, 230, 0.098), rgb(11, 12, 17) 70%);
+}
+
+.TabList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    list-style: none;
+    padding-inline-start: 0px;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+
+.TabTitle1 {
+    padding: 16px 80px;
+    font-size: 24px;
+    border-radius: 1rem 0 0 !important;
+}
+
+.TabTitle1[aria-selected="false"] {
+    background: #161616;
+    color: white;
+    border: 1px solid rgb(229 229 229 / 10%);
+}
+
+.TabTitle1[aria-selected="true"] {
+    background: transparent;
+    color: rgb(0, 173, 230);
+    border: none;
+}
+
+.TabTitle1:focus-visible {
+    outline: none;
+}
+
+.TabTitle2 {
+    padding: 16px 80px;
+    font-size: 24px;
+    border-radius: 0 1rem 0 0 !important;
+}
+
+.TabTitle2[aria-selected="false"] {
+    background: #161616;
+    color: white;
+    border: 1px solid rgb(229 229 229 / 10%);
+}
+
+.TabTitle2[aria-selected="true"] {
+    background: transparent;
+    color: rgb(0, 173, 230);
+}
+
+.TabTitle2:focus-visible {
+    outline: none;
+}
+
+.TabContents {
+    margin-left: 10px;
+    margin-right: 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 40px;
+    padding-bottom: 20px;
+    width: -webkit-fill-available;
+    margin-top: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 3px solid transparent;
+    padding-top: 30px;
+}
+
 @media screen and (max-width: 1600px) {
     .withdrawContent {
         flex-direction: column;
@@ -486,6 +560,12 @@ input[type=number] {
     }
     .UserBalance {
         flex-direction: row;
+    }
+    .TabTitle1 {
+        padding: 16px 40px;
+    }
+    .TabTitle2 {
+        padding: 16px 40px;
     }
 }
 
