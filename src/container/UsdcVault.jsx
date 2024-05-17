@@ -383,6 +383,13 @@ const UsdcVault = () => {
                               <p className='Text1'>&nbsp; 24 %</p>
                             </div>
                           </div>
+                          <div className='StakingBox'>
+                            <div className='StakingInfo'>
+                              <p className='HeaderText'>Withdraw Fee : </p>
+                              {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
+                              <p className='Text1'>&nbsp; 0.75 %</p>
+                            </div>
+                          </div>
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Pending Reward Amount : </p>
