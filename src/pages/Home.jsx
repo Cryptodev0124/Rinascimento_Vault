@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./App.module.scss";
 import Header from "../container/Header";
 import StakingContainer from "../container/AllVaults"
-import UsdcVault from "../container/UsdcVault"
+import UsdtVault from "../container/UsdtVault"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params';
 import { WagmiConfig, createConfig, configureChains } from 'wagmi'
@@ -67,7 +67,7 @@ const Home = () => {
             <Switch>
               <Route path="/">
                 <Route index element={<StakingContainer />} />
-                <Route path="/UsdcVault" exact element={<UsdcVault />} />
+                <Route path="/UsdtVault" exact element={<UsdtVault />} />
               </Route>
             </Switch>
           </WagmiConfig>

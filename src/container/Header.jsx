@@ -4,7 +4,7 @@ import { useWeb3Modal } from "@web3modal/react";
 import styles from "../styles/container/Container.module.scss";
 import mainLogoImg from "../icons/mainLogoImg.png";
 import mainLogoTxt from "../icons/mainLogoTxt.png";
-import UsdcLogo from "../icons/usdc.png";
+import UsdtLogo from "../icons/usdt.png";
 import EthLogo from "../icons/eth.png";
 import BtcLogo from "../icons/btc.png";
 
@@ -90,7 +90,7 @@ const Header = () => {
             </div>
 
             <div className={styles.HeaderContent}>
-                <a href="/UsdcVault"><img src={UsdcLogo} alt="" className={styles.headerlogo} /></a>
+                <a href="/UsdtVault"><img src={UsdtLogo} alt="" className={styles.headerlogo} /></a>
                 <a href="/EthVault"><img src={EthLogo} alt="" className={styles.headerlogo} /></a>
                 <a href="/BtcVault"><img src={BtcLogo} alt="" className={styles.headerlogo} /></a>
             </div>

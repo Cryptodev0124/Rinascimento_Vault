@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history'; // * note on history
 import styles from "./pages/App.module.scss";
 import Header from "./container/Header";
 import AllVaults from "./container/AllVaults"
-import UsdcVault from "./container/UsdcVault"
+import UsdtVault from "./container/UsdtVault"
 import BtcVault from "./container/BtcVault"
 import EthVault from "./container/EthVault"
 import { QueryParamProvider } from 'use-query-params';
@@ -74,8 +74,8 @@ export default function App() {
                             <Route path="/" exact>
                                 <AllVaults />
                             </Route>
-                            <Route path="/UsdcVault" exact>
-                                <UsdcVault />
+                            <Route path="/UsdtVault" exact>
+                                <UsdtVault />
                             </Route>
                             <Route path="/EthVault" exact>
                                 <EthVault />

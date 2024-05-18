@@ -431,20 +431,20 @@ input[type=number] {
 .StakingBoxs{
     margin-left: 10px;
     margin-right: 10px;
-    background: #232121;
-    border: 1px solid transparent;
+    background: linear-gradient(rgba(0, 173, 230, 0.098), rgb(11, 12, 17) 70%);
+    /* border: 1px solid transparent; */
     border-radius: 40px;
     padding-bottom: 20px;
     width: -webkit-fill-available;
     margin-top: 20px;
     padding-left: 5px;
     padding-right: 5px;
-    border: 3px solid transparent;
+    /* border: 3px solid transparent; */
     padding-top: 30px;
 }
 
 .StakingBoxs:hover{
-    border: 3px solid #3370ff;
+    border: 1px solid #3370ff;
 }
 
 .StakingContents{

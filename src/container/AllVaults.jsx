@@ -8,9 +8,6 @@ import Input from "../components/Input.tsx";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useWeb3Modal } from "@web3modal/react";
 import { waitForTransaction, readContract, writeContract } from '@wagmi/core'
-import UsdcLogo from "../icons/usdc.png";
-import EthLogo from "../icons/eth.png";
-import BtcLogo from "../icons/btc.png";
 
 const AllVaults = () => {
   const { open } = useWeb3Modal();
@@ -269,13 +266,13 @@ const AllVaults = () => {
                       <p className="ContractContentTextTitle">All Vaults</p>
                     </section>
                     <div className='StakingContents'>
-                      <a className='PlanBox' href="/UsdcVault">
-                        <p className="ContractContentTextTitlePlan">USDC</p>
+                      <a className='PlanBox' href="/UsdtVault">
+                        <p className="ContractContentTextTitlePlan">USDT</p>
                         <div className='StakingBoxs'>
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl1.toFixed(0)} USDC &nbsp;  &nbsp; </p>
+                              <p className='Text1'>&nbsp; {tvl1.toFixed(0)} USDT &nbsp;  &nbsp; </p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -288,11 +285,11 @@ const AllVaults = () => {
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userAmount1} USDC</p>
+                              <p className='Text1'>&nbsp; {userAmount1} USDT</p>
                             </div>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Pending Reward Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards1.toFixed(2)} USDC</p>
+                              <p className='Text1'>&nbsp; {userPendingRewards1.toFixed(2)} USDT</p>
                             </div>
                           </div>
                         </div>

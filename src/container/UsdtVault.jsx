@@ -11,7 +11,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useWeb3Modal } from "@web3modal/react";
 import { waitForTransaction, readContract, writeContract } from '@wagmi/core'
 
-const UsdcVault = () => {
+const UsdtVault = () => {
   const { open } = useWeb3Modal();
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
@@ -19,8 +19,8 @@ const UsdcVault = () => {
   const [tokenAmount2, setTokenAmount2] = useState(0);
   let [confirming1, setConfirming1] = useState(false);
   let [confirming2, setConfirming2] = useState(false);
-  const StakingAddress = "0x12192270ff21EdfB9c39b9597406c7D92f349312";
-  const TokenAddress = "0x3715872e527FD578C54bc9028DeD0ad237136D0E";
+  const StakingAddress = "0x1aFE82AeCd2a2BE975B552CA6d9B95e532B37a97";
+  const TokenAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
 
   const { switchNetwork } = useSwitchNetwork()
 
@@ -265,7 +265,7 @@ const UsdcVault = () => {
                 <>
                   <section className="ContractContainer">
                     <section className="DepositBoxHeader">
-                      <p className="ContractContentTextTitle">USDC Vault</p>
+                      <p className="ContractContentTextTitle">USDT Vault</p>
                     </section>
                     {/* <div className='StakingContents'> */}
                     <Tabs className="TabContainer">
@@ -278,7 +278,7 @@ const UsdcVault = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl1.toFixed(0)} USDC &nbsp;  &nbsp; </p>
+                              <p className='Text1'>&nbsp; {tvl1.toFixed(0)} USDT &nbsp;  &nbsp; </p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -291,7 +291,7 @@ const UsdcVault = () => {
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userAmount1} USDC</p>
+                              <p className='Text1'>&nbsp; {userAmount1} USDT</p>
                             </div>
                           </div>
                           <section className='inputPanel'>
@@ -312,13 +312,13 @@ const UsdcVault = () => {
                               {confirming1 === false ?
                                 Number(tokenBalance) > 0 ?
                                   <>
-                                    <p className='Text1'>Please approve USDC first</p>
+                                    <p className='Text1'>Please approve USDT first</p>
                                     <button disabled={confirming1 === false ? false : true} onClick={() => onTokenAllowance(1)} className="LockButton">
                                       <p>Allow</p>
                                     </button>
                                   </>
                                   :
-                                  <p className='Text1'>You have no USDC now</p>
+                                  <p className='Text1'>You have no USDT now</p>
                                 :
                                 <>
                                   <ClipLoader
@@ -334,18 +334,18 @@ const UsdcVault = () => {
                             :
                             <>
                               <section className="LockBox">
-                                <p className='Text1'>Please enter your USDC Amount now!</p>
+                                <p className='Text1'>Please enter your USDT Amount now!</p>
                                 {confirming1 === false ?
                                   <>
                                     <section className="claimBox">
-                                      <button disabled={tokenAmount1 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount1, 1)} className="LockButton">Stake USDC Now!</button>
+                                      <button disabled={tokenAmount1 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount1, 1)} className="LockButton">Stake USDT Now!</button>
                                       {Number(userPendingRewards1) > 0 ?
-                                        <button disabled={false} onClick={() => onTokenClaim(1)} className="LockButton">Claim USDC Now!</button>
+                                        <button disabled={false} onClick={() => onTokenClaim(1)} className="LockButton">Claim USDT Now!</button>
                                         :
                                         <></>
                                       }
                                       {Number(userAmount1) > 0 ?
-                                        <button disabled={lockingEnabled === true ? false : true} onClick={() => onTokenWithdraw(1)} className="LockButton">Withdraw USDC Now!</button>
+                                        <button disabled={lockingEnabled === true ? false : true} onClick={() => onTokenWithdraw(1)} className="LockButton">Withdraw USDT Now!</button>
                                         :
                                         <></>
                                       }
@@ -373,7 +373,7 @@ const UsdcVault = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl2.toFixed(0)} USDC  &nbsp;  &nbsp;</p>
+                              <p className='Text1'>&nbsp; {tvl1.toFixed(0)} USDT  &nbsp;  &nbsp;</p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -393,7 +393,7 @@ const UsdcVault = () => {
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Pending Reward Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} USDC</p>
+                              <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} USDT</p>
                             </div>
                           </div>
                           <section className='inputPanel'>
@@ -415,13 +415,13 @@ const UsdcVault = () => {
                               {confirming2 === false ?
                                 Number(tokenBalance) > 0 ?
                                   <>
-                                    <p className='Text1'>Please approve USDC first</p>
+                                    <p className='Text1'>Please approve USDT first</p>
                                     <button disabled={confirming2 === false ? false : true} onClick={() => onTokenAllowance(2)} className="LockButton">
                                       <p>Allow</p>
                                     </button>
                                   </>
                                   :
-                                  <p className='Text1'>You have no USDC now</p>
+                                  <p className='Text1'>You have no USDT now</p>
                                 :
                                 <>
                                   <ClipLoader
@@ -437,18 +437,18 @@ const UsdcVault = () => {
                             :
                             <>
                               <section className="LockBox">
-                                <p className='Text1'>Please enter your USDC Amount now!</p>
+                                <p className='Text1'>Please enter your USDT Amount now!</p>
                                 {confirming2 === false ?
                                   <>
                                     <section className="claimBox">
-                                      <button disabled={tokenAmount2 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount2, 2)} className="LockButton">Withdraw USDC Now!</button>
+                                      <button disabled={tokenAmount2 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount2, 2)} className="LockButton">Withdraw USDT Now!</button>
                                       {Number(userPendingRewards2) > 0 ?
-                                        <button disabled={false} onClick={() => onTokenClaim(2)} className="LockButton">Claim USDC Now!</button>
+                                        <button disabled={false} onClick={() => onTokenClaim(2)} className="LockButton">Claim USDT Now!</button>
                                         :
                                         <></>
                                       }
                                       {Number(userAmount2) > 0 ?
-                                        <button disabled={false} onClick={() => onTokenWithdraw(2)} className="LockButton">Withdraw USDC Now!</button>
+                                        <button disabled={false} onClick={() => onTokenWithdraw(2)} className="LockButton">Withdraw USDT Now!</button>
                                         :
                                         <></>
                                       }
@@ -500,4 +500,4 @@ const UsdcVault = () => {
   )
 }
 
-export default UsdcVault
+export default UsdtVault
