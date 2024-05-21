@@ -40,13 +40,13 @@ const AllVaults = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(11155111)
+        switchNetwork?.(25)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 11155111)
+      if (chain.id !== 25)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -93,7 +93,7 @@ const AllVaults = () => {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 11155111 && address && (confirming1 === false || confirming2 === false)) {
+    if (isConnected === true && chain?.id === 25 && address && (confirming1 === false || confirming2 === false)) {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming1, confirming2])
@@ -257,7 +257,7 @@ const AllVaults = () => {
     <main>
       <div className="GlobalContainer">
         {address ?
-          chain?.id === 11155111 ?
+          chain?.id === 25 ?
             <div className="MainDashboard">
               <section className="ContactBox">
                 <>
@@ -288,7 +288,7 @@ const AllVaults = () => {
                               <p className='Text1'>&nbsp; {userAmount1} USDT</p>
                             </div>
                             <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Reward Amount : </p>
+                              <p className='HeaderText'>Withdrawable Amount : </p>
                               <p className='Text1'>&nbsp; {userPendingRewards1.toFixed(2)} USDT</p>
                             </div>
                           </div>
@@ -316,7 +316,7 @@ const AllVaults = () => {
                               <p className='Text1'>&nbsp; {userAmount2} ETH</p>
                             </div>
                             <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Reward Amount : </p>
+                              <p className='HeaderText'>Withdrawable Amount : </p>
                               <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} ETH</p>
                             </div>
                           </div>
@@ -344,7 +344,7 @@ const AllVaults = () => {
                               <p className='Text1'>&nbsp; {userAmount2} BTC</p>
                             </div>
                             <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Reward Amount : </p>
+                              <p className='HeaderText'>Withdrawable Amount : </p>
                               <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} BTC</p>
                             </div>
                           </div>

@@ -42,13 +42,13 @@ const EthVault = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(11155111)
+        switchNetwork?.(25)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 11155111)
+      if (chain.id !== 25)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -95,7 +95,7 @@ const EthVault = () => {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 11155111 && address && (confirming1 === false || confirming2 === false)) {
+    if (isConnected === true && chain?.id === 25 && address && (confirming1 === false || confirming2 === false)) {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming1, confirming2])
@@ -259,7 +259,7 @@ const EthVault = () => {
     <main>
       <div className="GlobalContainer">
         {address ?
-          chain?.id === 11155111 ?
+          chain?.id === 25 ?
             <div className="MainDashboard">
               <section className="ContactBox">
                 <>
@@ -392,7 +392,7 @@ const EthVault = () => {
                           </div>
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Reward Amount : </p>
+                              <p className='HeaderText'>Withdrawable Amount : </p>
                               <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} ETH</p>
                             </div>
                           </div>
