@@ -3,7 +3,7 @@
 		"inputs": [
 			{
 				"internalType": "contract IERC20",
-				"name": "_usdc",
+				"name": "_usdt",
 				"type": "address"
 			},
 			{
@@ -204,7 +204,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "APY_USDC",
+		"name": "APY_USDT",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -269,19 +269,6 @@
 	},
 	{
 		"inputs": [],
-		"name": "SECONDS_IN_A_WEEK",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "TIME_STEP",
 		"outputs": [
 			{
@@ -308,13 +295,6 @@
 	},
 	{
 		"inputs": [],
-		"name": "compoundUsdc",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "eth",
 		"outputs": [
 			{
@@ -334,6 +314,19 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getBtcParticipants",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -367,7 +360,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "getContractUsdcBalance",
+		"name": "getContractUsdtBalance",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -379,18 +372,12 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "getUserAmountOfDeposits",
+		"inputs": [],
+		"name": "getEthParticipants",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "amount",
 				"type": "uint256"
 			}
 		],
@@ -398,52 +385,8 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "getUserAvailable",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "getUserCheckpoint",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "getUserTotalDeposits",
+		"inputs": [],
+		"name": "getUsdtParticipants",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -462,7 +405,7 @@
 				"type": "address"
 			}
 		],
-		"name": "getUserTotalWithdrawn",
+		"name": "getUserBtcDividends",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -481,11 +424,144 @@
 				"type": "address"
 			}
 		],
-		"name": "getUserUsdcDividends",
+		"name": "getUserEthDividends",
 		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserTotalBtcDeposits",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserTotalEthDeposits",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserTotalUsdtDeposits",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserUsdtDividends",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserWithdrawableBtc",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserWithdrawableEth",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserWithdrawableUsdt",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
 				"type": "uint256"
 			}
 		],
@@ -532,16 +608,10 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
+		"inputs": [],
 		"name": "stakeEth",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -552,7 +622,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "stakeUsdc",
+		"name": "stakeUsdt",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -611,7 +681,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "totalUsdcStaked",
+		"name": "totalUsdtStaked",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -624,7 +694,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "totalUsdcVaultParticipants",
+		"name": "totalUsdtVaultParticipants",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -676,7 +746,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "usdc",
+		"name": "usdt",
 		"outputs": [
 			{
 				"internalType": "contract IERC20",
@@ -695,7 +765,33 @@
 				"type": "uint256"
 			}
 		],
-		"name": "withdrawUsdc",
+		"name": "withdrawBtc",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawEth",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawUsdt",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

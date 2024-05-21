@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import '../App.css'
-import TokenAbi from '../config/TokenAbi.json'
+import UsdtAbi from '../config/UsdtAbi.json'
+import BtcAbi from '../config/BtcAbi.json'
 import StakingAbi from '../config/StakingAbi.json'
 import "../styles/StakingContainer.css";
 import Input from "../components/Input.tsx";
@@ -17,22 +18,31 @@ const AllVaults = () => {
   const [tokenAmount2, setTokenAmount2] = useState(0);
   let [confirming1, setConfirming1] = useState(false);
   let [confirming2, setConfirming2] = useState(false);
-  const StakingAddress = "0x12192270ff21EdfB9c39b9597406c7D92f349312";
-  const TokenAddress = "0x31d72768a4E9030D3CC8d5d0d76FCEC54d47ecE4";
+  const StakingAddress = "0x7ce732D06276b937037F7C3B5C46c75d72785f8C";
+  const UsdtAddress = "0x3f1dB0e5E834e8bbcdEf4477c86919064274c25d";
+  const EthAddress = "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14";
+  const BtcAddress = "0x92f3B59a79bFf5dc60c0d59eA13a44D082B2bdFC";
 
   const { switchNetwork } = useSwitchNetwork()
 
-  const [userAmount1, setUserAmount1] = useState(0);
-  const [tvl1, setTvl1] = useState(0);
-  const [tvl2, setTvl2] = useState(0);
-  const [apy1, setApy1] = useState(0);
-  const [apy2, setApy2] = useState(0);
-  const [userAmount2, setUserAmount2] = useState(0);
-  const [userPendingRewards1, setUserPendingRewards1] = useState(0);
-  const [userPendingRewards2, setUserPendingRewards2] = useState(0);
+  const [userUsdtAmount, setUserUsdtAmount] = useState(0);
+  const [userEthAmount, setUserEthAmount] = useState(0);
+  const [userBtcAmount, setUserBtcAmount] = useState(0);
+  const [tvlUsdt, setTvlUsdt] = useState(0);
+  const [tvlEth, setTvlEth] = useState(0);
+  const [tvlBtc, setTvlBtc] = useState(0);
+  const [apyUsdt, setApyUsdt] = useState(0);
+  const [apyEth, setApyEth] = useState(0);
+  const [apyBtc, setApyBtc] = useState(0);
+  const [userUsdtPendingRewards, setUserUsdtPendingRewards] = useState(0);
+  const [userEthPendingRewards, setUserEthPendingRewards] = useState(0);
+  const [userBtcPendingRewards, setUserBtcPendingRewards] = useState(0);
 
-  const [allowance, setAllowance] = useState(0);
-  const [tokenBalance, setTokenBalance] = useState(0);
+  const [allowanceUsdt, setAllowanceUsdt] = useState(0);
+  const [allowanceBtc, setAllowanceBtc] = useState(0);
+  const [usdtBalance, setUsdtBalance] = useState(0);
+  const [ethBalance, setEthBalance] = useState(0);
+  const [btcBalance, setBtcBalance] = useState(0);
   const [maxBalance, setMaxBalance] = useState(0);
   const [maxSet, setMaxSet] = useState(0);
   const [lockingEnabled, setLockingEnabled] = useState(false);
@@ -40,13 +50,13 @@ const AllVaults = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(25)
+        switchNetwork?.(11155111)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 25)
+      if (chain.id !== 11155111)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -69,195 +79,53 @@ const AllVaults = () => {
   useEffect(() => {
     const FetchStakingData = async () => {
       try {
-        const totalInfo1 = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalInfo', args: [address, '1'] });
-        const totalInfo2 = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalInfo', args: [address, '2'] });
-        const tokenAllowance = await readContract({ address: TokenAddress, abi: TokenAbi, functionName: 'allowance', args: [address, StakingAddress] });
-        const tokenAmount = await readContract({ address: TokenAddress, abi: TokenAbi, functionName: 'balanceOf', args: [address] });
-        const rewardPerYear1 = Number(totalInfo1[1]) * 60 * 60 * 24 * 365;
-        const rewardPerYear2 = Number(totalInfo2[1]) * 60 * 60 * 24 * 365;
-        const APY1 = ((rewardPerYear1 / (Number(totalInfo1[0]))) + 1) * 100
-        const APY2 = ((rewardPerYear2 / (Number(totalInfo2[0]))) + 1) * 100
-        setApy1(APY1);
-        setApy2(APY2);
-        setTvl1(Number(totalInfo1[0]) / Math.pow(10, 18));
-        setTvl2(Number(totalInfo2[0]) / Math.pow(10, 18));
-        setUserAmount1(Number(totalInfo1[2]) / Math.pow(10, 18));
-        setUserAmount2(Number(totalInfo2[2]) / Math.pow(10, 18));
-        setUserPendingRewards1(Number(totalInfo1[3]) / Math.pow(10, 18));
-        setUserPendingRewards2(Number(totalInfo2[3]) / Math.pow(10, 18));
-        setLockingEnabled(totalInfo1[4]);
-        setAllowance(Number(tokenAllowance) / Math.pow(10, 18));
-        setTokenBalance(tokenAmount);
-        setMaxBalance(tokenAmount);
+        const tvlUsdt = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalUsdtStaked' });
+        const tvlEth = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalEthStaked' });
+        const tvlBtc = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalBtcStaked' });
+        const usdtAllowance = await readContract({ address: UsdtAddress, abi: UsdtAbi, functionName: 'allowance', args: [address, StakingAddress] });
+        const btcAllowance = await readContract({ address: BtcAddress, abi: BtcAbi, functionName: 'allowance', args: [address, StakingAddress] });
+        const usdtAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalUsdtDeposits', args: [address] });
+        const ethAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalEthDeposits', args: [address]});
+        const btcAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalBtcDeposits', args: [address] });
+        const usdtPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserUsdtDividends', args: [address]});
+        const ethPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserEthDividends', args: [address]});
+        const btcPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserBtcDividends', args: [address]});
+        const APY_USDT = 24;
+        const APY_ETH = 17;
+        const APY_BTC = 8;
+        setApyUsdt(APY_USDT);
+        setApyEth(APY_ETH);
+        setApyBtc(APY_BTC);
+        setTvlUsdt(Number(tvlUsdt) / Math.pow(10, 18));
+        setTvlEth(Number(tvlEth) / Math.pow(10, 18));
+        setTvlBtc(Number(tvlBtc) / Math.pow(10, 18));
+        setUserUsdtAmount(Number(usdtAmount) / Math.pow(10, 18));
+        setUserEthAmount(Number(ethAmount) / Math.pow(10, 18));
+        setUserBtcAmount(Number(btcAmount) / Math.pow(10, 18));
+        setUserUsdtPendingRewards(Number(usdtPendingRewards) / Math.pow(10, 18));
+        setUserEthPendingRewards(Number(ethPendingRewards) / Math.pow(10, 18));
+        setUserBtcPendingRewards(Number(btcPendingRewards) / Math.pow(10, 18));
+        setLockingEnabled(false);
+        setAllowanceUsdt(Number(usdtAllowance) / Math.pow(10, 18));
+        setAllowanceBtc(Number(btcAllowance) / Math.pow(10, 18));
+        setUsdtBalance(usdtAmount);
+        setEthBalance(usdtAmount);
+        setBtcBalance(btcAmount);
+        setMaxBalance(usdtAmount);
       } catch (e) {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 25 && address && (confirming1 === false || confirming2 === false)) {
+    if (isConnected === true && chain?.id === 11155111 && address && (confirming1 === false || confirming2 === false)) {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming1, confirming2])
-
-  const onTokenAllowance = async (pid) => {
-    try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
-      const approve = await writeContract({
-        address: TokenAddress,
-        abi: TokenAbi,
-        functionName: 'approve',
-        args: [StakingAddress, tokenBalance],
-        account: address
-      })
-      const approveData = await waitForTransaction({
-        hash: approve.hash
-      })
-      console.log('approveData', approveData)
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
-      setMaxSet(0);
-    } catch (err) {
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
-      setMaxSet(0);
-    }
-  };
-
-  const onTokenStake = async (tokenAmounts, pid) => {
-    try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
-      let TokenAmounts;
-      if (Number(maxSet) === 0) {
-        TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 18)).toString(16)}`;
-      } else {
-        TokenAmounts = maxSet;
-      }
-      const deposit = await writeContract({
-        address: StakingAddress,
-        abi: StakingAbi,
-        functionName: 'deposit',
-        args: [TokenAmounts, pid.toString()],
-        account: address
-      })
-      const depositData = await waitForTransaction({
-        hash: deposit.hash
-      })
-      console.log('depositData', depositData)
-      setMaxSet(0);
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
-    } catch (err) {
-      setMaxSet(0);
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
-    }
-  };
-
-  const onTokenClaim = async (pid) => {
-    try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
-      const claim = await writeContract({
-        address: StakingAddress,
-        abi: StakingAbi,
-        functionName: 'claim',
-        args: [pid.toString()],
-        account: address
-      })
-      const claimData = await waitForTransaction({
-        hash: claim.hash
-      })
-      console.log('claimData', claimData)
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
-    } catch (err) {
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
-    }
-  };
-
-  const onTokenWithdraw = async (pid) => {
-    try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
-      const withdraw = await writeContract({
-        address: StakingAddress,
-        abi: StakingAbi,
-        functionName: 'withdrawAll',
-        args: [pid.toString()],
-        account: address
-      })
-      const withdrawData = await waitForTransaction({
-        hash: withdraw.hash
-      })
-      console.log('withdrawData', withdrawData)
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
-    } catch (err) {
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
-    }
-  };
-
-  const setMaxAmount = async (pid) => {
-    if (pid === 1) {
-      setTokenAmount1(Number(tokenBalance) / Math.pow(10, 18));
-    } else if (pid === 2) {
-      setTokenAmount2(Number(tokenBalance) / Math.pow(10, 18));
-    }
-    setMaxSet(maxBalance);
-  };
 
   return (
     <main>
       <div className="GlobalContainer">
         {address ?
-          chain?.id === 25 ?
+          chain?.id === 11155111 ?
             <div className="MainDashboard">
               <section className="ContactBox">
                 <>
@@ -272,7 +140,7 @@ const AllVaults = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl1.toFixed(0)} USDT &nbsp;  &nbsp; </p>
+                              <p className='Text1'>&nbsp; {tvlUsdt.toFixed(0)} USDT &nbsp;  &nbsp; </p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -285,11 +153,11 @@ const AllVaults = () => {
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userAmount1} USDT</p>
+                              <p className='Text1'>&nbsp; {userUsdtAmount} USDT</p>
                             </div>
                             <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Withdrawable Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards1.toFixed(2)} USDT</p>
+                              <p className='HeaderText'>Pending Rewards Amount : </p>
+                              <p className='Text1'>&nbsp; {userUsdtPendingRewards.toFixed(2)} USDT</p>
                             </div>
                           </div>
                         </div>
@@ -300,7 +168,7 @@ const AllVaults = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl2.toFixed(0)} ETH  &nbsp;  &nbsp;</p>
+                              <p className='Text1'>&nbsp; {tvlEth.toFixed(0)} ETH  &nbsp;  &nbsp;</p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -313,11 +181,11 @@ const AllVaults = () => {
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userAmount2} ETH</p>
+                              <p className='Text1'>&nbsp; {userEthAmount} ETH</p>
                             </div>
                             <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Withdrawable Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} ETH</p>
+                              <p className='HeaderText'>Pending Rewards Amount : </p>
+                              <p className='Text1'>&nbsp; {userEthPendingRewards.toFixed(2)} ETH</p>
                             </div>
                           </div>
                         </div>
@@ -328,7 +196,7 @@ const AllVaults = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl2.toFixed(0)} BTC  &nbsp;  &nbsp;</p>
+                              <p className='Text1'>&nbsp; {tvlBtc.toFixed(0)} BTC  &nbsp;  &nbsp;</p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -341,11 +209,11 @@ const AllVaults = () => {
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userAmount2} BTC</p>
+                              <p className='Text1'>&nbsp; {userBtcAmount} BTC</p>
                             </div>
                             <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Withdrawable Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} BTC</p>
+                              <p className='HeaderText'>Pending Rewards Amount : </p>
+                              <p className='Text1'>&nbsp; {userBtcPendingRewards.toFixed(2)} BTC</p>
                             </div>
                           </div>
                         </div>

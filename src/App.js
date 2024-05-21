@@ -11,7 +11,7 @@ import BtcVault from "./container/BtcVault"
 import EthVault from "./container/EthVault"
 import { QueryParamProvider } from 'use-query-params';
 import { WagmiConfig, createConfig, configureChains } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
+import { mainnet, sepolia, cronos } from 'wagmi/chains'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
@@ -22,7 +22,7 @@ import { Web3Modal } from "@web3modal/react";
 const projectId = '7c7fff7dcdf68099b497f697a163e920'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-    [mainnet, sepolia],
+    [mainnet, sepolia, cronos],
     [w3mProvider({ projectId })],
 )
 

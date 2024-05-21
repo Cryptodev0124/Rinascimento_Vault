@@ -3,7 +3,7 @@ import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import '../App.css'
-import TokenAbi from '../config/TokenAbi.json'
+import BtcAbi from '../config/BtcAbi.json'
 import StakingAbi from '../config/StakingAbi.json'
 import "../styles/StakingContainer.css";
 import Input from "../components/Input.tsx";
@@ -42,13 +42,13 @@ const EthVault = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(25)
+        switchNetwork?.(11155111)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 25)
+      if (chain.id !== 11155111)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -73,8 +73,8 @@ const EthVault = () => {
       try {
         const totalInfo1 = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalInfo', args: [address, '1'] });
         const totalInfo2 = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalInfo', args: [address, '2'] });
-        const tokenAllowance = await readContract({ address: TokenAddress, abi: TokenAbi, functionName: 'allowance', args: [address, StakingAddress] });
-        const tokenAmount = await readContract({ address: TokenAddress, abi: TokenAbi, functionName: 'balanceOf', args: [address] });
+        const tokenAllowance = await readContract({ address: TokenAddress, abi: BtcAbi, functionName: 'allowance', args: [address, StakingAddress] });
+        const tokenAmount = await readContract({ address: TokenAddress, abi: BtcAbi, functionName: 'balanceOf', args: [address] });
         const rewardPerYear1 = Number(totalInfo1[1]) * 60 * 60 * 24 * 365;
         const rewardPerYear2 = Number(totalInfo2[1]) * 60 * 60 * 24 * 365;
         const APY1 = ((rewardPerYear1 / (Number(totalInfo1[0]))) + 1) * 100
@@ -95,7 +95,7 @@ const EthVault = () => {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 25 && address && (confirming1 === false || confirming2 === false)) {
+    if (isConnected === true && chain?.id === 11155111 && address && (confirming1 === false || confirming2 === false)) {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming1, confirming2])
@@ -109,7 +109,7 @@ const EthVault = () => {
       }
       const approve = await writeContract({
         address: TokenAddress,
-        abi: TokenAbi,
+        abi: BtcAbi,
         functionName: 'approve',
         args: [StakingAddress, tokenBalance],
         account: address
@@ -259,7 +259,7 @@ const EthVault = () => {
     <main>
       <div className="GlobalContainer">
         {address ?
-          chain?.id === 25 ?
+          chain?.id === 11155111 ?
             <div className="MainDashboard">
               <section className="ContactBox">
                 <>
