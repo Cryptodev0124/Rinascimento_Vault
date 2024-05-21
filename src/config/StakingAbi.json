@@ -8,11 +8,6 @@
 			},
 			{
 				"internalType": "contract IERC20",
-				"name": "_eth",
-				"type": "address"
-			},
-			{
-				"internalType": "contract IERC20",
 				"name": "_btc",
 				"type": "address"
 			},
@@ -283,19 +278,6 @@
 	{
 		"inputs": [],
 		"name": "btc",
-		"outputs": [
-			{
-				"internalType": "contract IERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "eth",
 		"outputs": [
 			{
 				"internalType": "contract IERC20",
@@ -771,13 +753,7 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
+		"inputs": [],
 		"name": "withdrawEth",
 		"outputs": [],
 		"stateMutability": "payable",

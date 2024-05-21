@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { ether, ethers } from 'ethers'
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -15,23 +16,16 @@ const EthVault = () => {
   const { open } = useWeb3Modal();
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
-  const [tokenAmount1, setTokenAmount1] = useState(0);
-  const [tokenAmount2, setTokenAmount2] = useState(0);
-  let [confirming1, setConfirming1] = useState(false);
-  let [confirming2, setConfirming2] = useState(false);
-  const StakingAddress = "0x12192270ff21EdfB9c39b9597406c7D92f349312";
-  const TokenAddress = "0x3715872e527FD578C54bc9028DeD0ad237136D0E";
+  const [ethAmount, setEthAmount] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const StakingAddress = "0x2E12C15C168bF1134260443B03Cd96f4d65935ec";
 
   const { switchNetwork } = useSwitchNetwork()
 
-  const [userAmount1, setUserAmount1] = useState(0);
-  const [tvl1, setTvl1] = useState(0);
-  const [tvl2, setTvl2] = useState(0);
-  const [apy1, setApy1] = useState(0);
-  const [apy2, setApy2] = useState(0);
-  const [userAmount2, setUserAmount2] = useState(0);
-  const [userPendingRewards1, setUserPendingRewards1] = useState(0);
-  const [userPendingRewards2, setUserPendingRewards2] = useState(0);
+  const [userAmount, setUserAmount] = useState(0);
+  const [tvl, setTvl] = useState(0);
+  const [userPendingRewards, setUserPendingRewards] = useState(0);
+  const [withdrawableAmount, setWithdrawableAmount] = useState(0);
 
   const [allowance, setAllowance] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);
@@ -71,188 +65,104 @@ const EthVault = () => {
   useEffect(() => {
     const FetchStakingData = async () => {
       try {
-        const totalInfo1 = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalInfo', args: [address, '1'] });
-        const totalInfo2 = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalInfo', args: [address, '2'] });
-        const tokenAllowance = await readContract({ address: TokenAddress, abi: BtcAbi, functionName: 'allowance', args: [address, StakingAddress] });
-        const tokenAmount = await readContract({ address: TokenAddress, abi: BtcAbi, functionName: 'balanceOf', args: [address] });
-        const rewardPerYear1 = Number(totalInfo1[1]) * 60 * 60 * 24 * 365;
-        const rewardPerYear2 = Number(totalInfo2[1]) * 60 * 60 * 24 * 365;
-        const APY1 = ((rewardPerYear1 / (Number(totalInfo1[0]))) + 1) * 100
-        const APY2 = ((rewardPerYear2 / (Number(totalInfo2[0]))) + 1) * 100
-        setApy1(APY1);
-        setApy2(APY2);
-        setTvl1(Number(totalInfo1[0]) / Math.pow(10, 18));
-        setTvl2(Number(totalInfo2[0]) / Math.pow(10, 18));
-        setUserAmount1(Number(totalInfo1[2]) / Math.pow(10, 18));
-        setUserAmount2(Number(totalInfo2[2]) / Math.pow(10, 18));
-        setUserPendingRewards1(Number(totalInfo1[3]) / Math.pow(10, 18));
-        setUserPendingRewards2(Number(totalInfo2[3]) / Math.pow(10, 18));
-        setLockingEnabled(totalInfo1[4]);
-        setAllowance(Number(tokenAllowance) / Math.pow(10, 18));
-        setTokenBalance(tokenAmount);
-        setMaxBalance(tokenAmount);
+        const tvl = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalEthStaked' });
+        const userStakedAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalEthDeposits', args: [address] });
+        const pendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserEthDividends', args: [address] });
+        const withdrawableAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserWithdrawableEth', args: [address] });
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const walletAmount = await signer.getBalance();
+        setTvl(Number(tvl) / Math.pow(10, 18));
+        setUserAmount(Number(userStakedAmount) / Math.pow(10, 18));
+        setUserPendingRewards(Number(pendingRewards) / Math.pow(10, 18));
+        setWithdrawableAmount(Number(withdrawableAmount) / Math.pow(10, 18));
+        // setLockingEnabled(totalInfo1[4]);
+        setTokenBalance(walletAmount);
+        setMaxBalance(walletAmount);
       } catch (e) {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 11155111 && address && (confirming1 === false || confirming2 === false)) {
+    if (isConnected === true && chain?.id === 11155111 && address) {
       FetchStakingData();
     }
-  }, [isConnected, address, chain, confirming1, confirming2])
+  }, [isConnected, address, chain])
 
-  const onTokenAllowance = async (pid) => {
+  const onEthStake = async (amount) => {
     try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
-      const approve = await writeContract({
-        address: TokenAddress,
-        abi: BtcAbi,
-        functionName: 'approve',
-        args: [StakingAddress, tokenBalance],
-        account: address
-      })
-      const approveData = await waitForTransaction({
-        hash: approve.hash
-      })
-      console.log('approveData', approveData)
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
-      setMaxSet(0);
-    } catch (err) {
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
-      setMaxSet(0);
-    }
-  };
-
-  const onTokenStake = async (tokenAmounts, pid) => {
-    try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
       let TokenAmounts;
-      if (Number(maxSet) === 0) {
-        TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 18)).toString(16)}`;
-      } else {
-        TokenAmounts = maxSet;
-      }
+      TokenAmounts = `0x${(Number(amount) * (10 ** 18)).toString(16)}`;
       const deposit = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
-        functionName: 'deposit',
-        args: [TokenAmounts, pid.toString()],
-        account: address
+        functionName: 'stakeEth',
+        account: address,
+        value: TokenAmounts
       })
       const depositData = await waitForTransaction({
         hash: deposit.hash
       })
       console.log('depositData', depositData)
       setMaxSet(0);
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
+      // setTimeout(function () {
+      //   setConfirming(false);
+      // }, 3000)
     } catch (err) {
       setMaxSet(0);
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
+      // setConfirming(false);
     }
   };
 
-  const onTokenClaim = async (pid) => {
+  const onTokenClaim = async () => {
     try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
       const claim = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
         functionName: 'claim',
-        args: [pid.toString()],
         account: address
       })
       const claimData = await waitForTransaction({
         hash: claim.hash
       })
       console.log('claimData', claimData)
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
+      // setTimeout(function () {
+      //   setConfirming(false);
+      // }, 3000)
     } catch (err) {
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
     }
   };
 
-  const onTokenWithdraw = async (pid) => {
+  const onEthWithdraw = async (amount) => {
     try {
-      if (pid === 1) {
-        setConfirming1(true);
-      } else if (pid === 2) {
-        setConfirming2(true);
-      }
+      let WithdrawAmounts;
+      WithdrawAmounts = `0x${(Number(amount) * (10 ** 18)).toString(16)}`;
       const withdraw = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
-        functionName: 'withdrawAll',
-        args: [pid.toString()],
-        account: address
+        functionName: 'withdrawEth',
+        account: address,
+        value: WithdrawAmounts
       })
       const withdrawData = await waitForTransaction({
         hash: withdraw.hash
       })
       console.log('withdrawData', withdrawData)
-      setTimeout(function () {
-        if (pid === 1) {
-          setConfirming1(false);
-        } else if (pid === 2) {
-          setConfirming2(false);
-        }
-      }, 3000)
+      // setTimeout(function () {
+      //   setConfirming(false);
+      // }, 3000)
     } catch (err) {
-      if (pid === 1) {
-        setConfirming1(false);
-      } else if (pid === 2) {
-        setConfirming2(false);
-      }
+      // setConfirming(false);
     }
   };
 
-  const setMaxAmount = async (pid) => {
-    if (pid === 1) {
-      setTokenAmount1(Number(tokenBalance) / Math.pow(10, 18));
-    } else if (pid === 2) {
-      setTokenAmount2(Number(tokenBalance) / Math.pow(10, 18));
-    }
+  const setMaxAmount = async () => {
+    setEthAmount(Number(tokenBalance) / Math.pow(10, 18));
     setMaxSet(maxBalance);
+  };
+
+  const setMaxWithdrawAmount = async () => {
+    setWithdrawAmount(Number(withdrawableAmount));
+    // setMaxWithdrawSet(maxWithdrawBalance);
   };
 
   return (
@@ -278,7 +188,7 @@ const EthVault = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl1.toFixed(0)} ETH &nbsp;  &nbsp; </p>
+                              <p className='Text1'>&nbsp; {tvl.toFixed(4)} ETH &nbsp;  &nbsp; </p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -291,7 +201,7 @@ const EthVault = () => {
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userAmount1} ETH</p>
+                              <p className='Text1'>&nbsp; {userAmount.toFixed(4)} ETH</p>
                             </div>
                           </div>
                           <section className='inputPanel'>
@@ -301,71 +211,32 @@ const EthVault = () => {
                                 placeholder="Enter amount"
                                 label=""
                                 type="number"
-                                changeValue={setTokenAmount1}
-                                value={tokenAmount1}
+                                changeValue={setEthAmount}
+                                value={ethAmount}
                               />
                             </section>
-                            <div onClick={() => setMaxAmount(1)} className="MaxButton">Max</div>
+                            <div onClick={() => setMaxAmount()} className="MaxButton">Max</div>
                           </section>
-                          {Number(tokenAmount1) > Number(allowance) ?
-                            <section className="LockBox">
-                              {confirming1 === false ?
-                                Number(tokenBalance) > 0 ?
-                                  <>
-                                    <p className='Text1'>Please approve ETH first</p>
-                                    <button disabled={confirming1 === false ? false : true} onClick={() => onTokenAllowance(1)} className="LockButton">
-                                      <p>Allow</p>
-                                    </button>
-                                  </>
-                                  :
-                                  <p className='Text1'>You have no ETH now</p>
-                                :
-                                <>
-                                  <ClipLoader
-                                    color={'#36d7b7'}
-                                    loading={confirming1}
-                                    size={30}
-                                    aria-label="Loading Spinner"
-                                    data-testid="loader"
-                                  />
-                                </>
-                              }
-                            </section>
-                            :
-                            <>
-                              <section className="LockBox">
-                                <p className='Text1'>Please enter your ETH Amount now!</p>
-                                {confirming1 === false ?
-                                  <>
-                                    <section className="claimBox">
-                                      <button disabled={tokenAmount1 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount1, 1)} className="LockButton">Stake ETH Now!</button>
-                                      {Number(userPendingRewards1) > 0 ?
-                                        <button disabled={false} onClick={() => onTokenClaim(1)} className="LockButton">Claim ETH Now!</button>
-                                        :
-                                        <></>
-                                      }
-                                      {Number(userAmount1) > 0 ?
-                                        <button disabled={lockingEnabled === true ? false : true} onClick={() => onTokenWithdraw(1)} className="LockButton">Withdraw ETH Now!</button>
-                                        :
-                                        <></>
-                                      }
-                                    </section>
-                                  </>
-                                  :
-                                  <>
-                                    {/* <p className='Text1'>Staking...</p> */}
-                                    <ClipLoader
-                                      color={'#36d7b7'}
-                                      loading={confirming1}
-                                      size={30}
-                                      aria-label="Loading Spinner"
-                                      data-testid="loader"
-                                    />
-                                  </>
-                                }
-                              </section>
-                            </>
-                          }
+                          <section className="LockBox">
+                            <p className='Text1'>Please enter your ETH Amount now!</p>
+                            {
+                              <>
+                                <section className="claimBox">
+                                  <button disabled={ethAmount > 0 ? false : true} onClick={() => onEthStake(ethAmount)} className="LockButton">Stake ETH Now!</button>
+                                  {/* {Number(userPendingRewards) > 0 ?
+                                    <button disabled={false} onClick={() => onTokenClaim()} className="LockButton">Claim ETH Now!</button>
+                                    :
+                                    <></>
+                                  }
+                                  {Number(userAmount) > 0 ?
+                                    <button disabled={lockingEnabled === true ? false : true} onClick={() => onTokenWithdraw()} className="LockButton">Withdraw ETH Now!</button>
+                                    :
+                                    <></>
+                                  } */}
+                                </section>
+                              </>
+                            }
+                          </section>
                         </div>
                       </TabPanel>
                       <TabPanel>
@@ -373,7 +244,7 @@ const EthVault = () => {
                           <div className='StakingBox'>
                             <div className='StakingInfo'>
                               <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvl2.toFixed(0)} ETH  &nbsp;  &nbsp;</p>
+                              <p className='Text1'>&nbsp; {tvl.toFixed(4)} ETH  &nbsp;  &nbsp;</p>
                             </div>
                           </div>
                           <div className='StakingBox'>
@@ -390,10 +261,23 @@ const EthVault = () => {
                               <p className='Text1'>&nbsp; 0.75 %</p>
                             </div>
                           </div>
+                          <div className='StakingBox'>
+                            <div className='StakingInfo'>
+                              <p className='HeaderText'>LOCK TIME : </p>
+                              {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
+                              <p className='Text1'>&nbsp; 2 WEEKS</p>
+                            </div>
+                          </div>
+                          <div className='StakingBox1'>
+                            <div className='LpBalance UserBalance'>
+                              <p className='HeaderText'>Pending Rewards Amount : </p>
+                              <p className='Text1'>&nbsp; {userPendingRewards.toFixed(4)} ETH</p>
+                            </div>
+                          </div>
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Withdrawable Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards2.toFixed(2)} ETH</p>
+                              <p className='Text1'>&nbsp; {withdrawableAmount.toFixed(4)} ETH</p>
                             </div>
                           </div>
                           <section className='inputPanel'>
@@ -403,72 +287,33 @@ const EthVault = () => {
                                 placeholder="Enter amount"
                                 label=""
                                 type="number"
-                                changeValue={setTokenAmount2}
-                                value={tokenAmount2}
+                                changeValue={setWithdrawAmount}
+                                value={withdrawAmount}
                               />
                             </section>
-                            <div onClick={() => setMaxAmount(2)} className="MaxButton">Max</div>
+                            <div onClick={() => setMaxWithdrawAmount()} className="MaxButton">Max</div>
                           </section>
-                          {Number(tokenAmount2) > Number(allowance) ?
-                            <section className="LockBox">
 
-                              {confirming2 === false ?
-                                Number(tokenBalance) > 0 ?
-                                  <>
-                                    <p className='Text1'>Please approve ETH first</p>
-                                    <button disabled={confirming2 === false ? false : true} onClick={() => onTokenAllowance(2)} className="LockButton">
-                                      <p>Allow</p>
-                                    </button>
-                                  </>
-                                  :
-                                  <p className='Text1'>You have no ETH now</p>
-                                :
-                                <>
-                                  <ClipLoader
-                                    color={'#36d7b7'}
-                                    loading={confirming2}
-                                    size={30}
-                                    aria-label="Loading Spinner"
-                                    data-testid="loader"
-                                  />
-                                </>
-                              }
-                            </section>
-                            :
-                            <>
-                              <section className="LockBox">
-                                <p className='Text1'>Please enter your ETH Amount now!</p>
-                                {confirming2 === false ?
-                                  <>
-                                    <section className="claimBox">
-                                      <button disabled={tokenAmount2 > 0 ? false : true} onClick={() => onTokenStake(tokenAmount2, 2)} className="LockButton">Withdraw ETH Now!</button>
-                                      {Number(userPendingRewards2) > 0 ?
-                                        <button disabled={false} onClick={() => onTokenClaim(2)} className="LockButton">Claim ETH Now!</button>
-                                        :
-                                        <></>
-                                      }
-                                      {Number(userAmount2) > 0 ?
-                                        <button disabled={false} onClick={() => onTokenWithdraw(2)} className="LockButton">Withdraw ETH Now!</button>
-                                        :
-                                        <></>
-                                      }
-                                    </section>
-                                  </>
-                                  :
-                                  <>
-                                    {/* <p className='Text1'>Staking...</p> */}
-                                    <ClipLoader
-                                      color={'#36d7b7'}
-                                      loading={confirming2}
-                                      size={30}
-                                      aria-label="Loading Spinner"
-                                      data-testid="loader"
-                                    />
-                                  </>
-                                }
-                              </section>
-                            </>
-                          }
+                          <section className="LockBox">
+                            <p className='Text1'>Please enter your ETH Amount now!</p>
+                            {
+                              <>
+                                <section className="claimBox">
+                                  <button disabled={withdrawableAmount > 0 ? false : true} onClick={() => onEthWithdraw(withdrawableAmount)} className="LockButton">Withdraw ETH Now!</button>
+                                  {/* {Number(userPendingRewards) > 0 ?
+                                    <button disabled={false} onClick={() => onTokenClaim()} className="LockButton">Claim ETH Now!</button>
+                                    :
+                                    <></>
+                                  }
+                                  {Number(userAmount) > 0 ?
+                                    <button disabled={false} onClick={() => onTokenWithdraw()} className="LockButton">Withdraw ETH Now!</button>
+                                    :
+                                    <></>
+                                  } */}
+                                </section>
+                              </>
+                            }
+                          </section>
                         </div>
                       </TabPanel>
                     </Tabs>

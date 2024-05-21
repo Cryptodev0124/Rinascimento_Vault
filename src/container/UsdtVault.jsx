@@ -18,17 +18,17 @@ const UsdtVault = () => {
   const [tokenAmount, setTokenAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   let [confirming, setConfirming] = useState(false);
-  const StakingAddress = "0x7ce732D06276b937037F7C3B5C46c75d72785f8C";
+  const StakingAddress = "0x2E12C15C168bF1134260443B03Cd96f4d65935ec";
   const TokenAddress = "0x3f1dB0e5E834e8bbcdEf4477c86919064274c25d";
-  
+
   const { switchNetwork } = useSwitchNetwork()
-  
+
   const [userAmount, setUserAmount] = useState(0);
   const [tvl, setTvl] = useState(0);
   const [apy, setApy] = useState(0);
   const [userPendingRewards, setUserPendingRewards] = useState(0);
   const [withdrawableAmount, setWithdrawableAmount] = useState(0);
-  
+
   const [allowance, setAllowance] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);
   const [maxBalance, setMaxBalance] = useState(0);
@@ -47,7 +47,7 @@ const UsdtVault = () => {
     }
     if (isConnected === true) {
       if (chain.id !== 11155111)
-      switchChain();
+        switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
   const onConnectWallet = async () => {
@@ -63,16 +63,16 @@ const UsdtVault = () => {
       }
     }
     if (isConnected === true && firstConnect === true)
-    reloadWindow();
+      reloadWindow();
   }, [isConnected, firstConnect])
-  
+
   useEffect(() => {
     const FetchStakingData = async () => {
       try {
-        const tvl = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalUsdtStaked'});
-        const userStakedAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalUsdtDeposits', args: [address]});
-        const pendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserUsdtDividends', args: [address]});
-        const withdrawableAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserWithdrawableUsdt', args: [address]});
+        const tvl = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'totalUsdtStaked' });
+        const userStakedAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalUsdtDeposits', args: [address] });
+        const pendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserUsdtDividends', args: [address] });
+        const withdrawableAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserWithdrawableUsdt', args: [address] });
         const tokenAllowance = await readContract({ address: TokenAddress, abi: UsdtAbi, functionName: 'allowance', args: [address, StakingAddress] });
         const tokenAmount = await readContract({ address: TokenAddress, abi: UsdtAbi, functionName: 'balanceOf', args: [address] });
         // const rewardPerYear = Number(totalInfo[1]) * 60 * 60 * 24 * 365;
@@ -95,7 +95,7 @@ const UsdtVault = () => {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming])
-  
+
   const onTokenAllowance = async () => {
     try {
       setConfirming(true);
@@ -119,16 +119,12 @@ const UsdtVault = () => {
       setMaxSet(0);
     }
   };
-  
+
   const onTokenStake = async (tokenAmounts) => {
     try {
       setConfirming(true);
       let TokenAmounts;
-      if (Number(maxSet) === 0) {
-        TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 18)).toString(16)}`;
-      } else {
-        TokenAmounts = maxSet;
-      }
+      TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 18)).toString(16)}`;
       const deposit = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
@@ -149,7 +145,7 @@ const UsdtVault = () => {
       setConfirming(false);
     }
   };
-  
+
   const onTokenClaim = async () => {
     try {
       setConfirming(true);
@@ -170,16 +166,12 @@ const UsdtVault = () => {
       setConfirming(false);
     }
   };
-  
+
   const onTokenWithdraw = async (amount) => {
     try {
       setConfirming(true);
       let WithdrawAmounts;
-      if (Number(maxWithdrawSet) === 0) {
-        WithdrawAmounts = `0x${(Number(amount) * (10 ** 18)).toString(16)}`;
-      } else {
-        WithdrawAmounts = maxWithdrawSet;
-      }
+      WithdrawAmounts = `0x${(Number(amount) * (10 ** 18)).toString(16)}`;
       const withdraw = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
@@ -190,7 +182,6 @@ const UsdtVault = () => {
       const withdrawData = await waitForTransaction({
         hash: withdraw.hash
       })
-      console.log('withdrawData', withdrawData)
       setTimeout(function () {
         setConfirming(false);
       }, 3000)
@@ -198,16 +189,15 @@ const UsdtVault = () => {
       setConfirming(false);
     }
   };
-  
+
   const setMaxAmount = async () => {
     setTokenAmount(Number(tokenBalance) / Math.pow(10, 18));
     setMaxSet(maxBalance);
   };
 
   const setMaxWithdrawAmount = async () => {
-    console.log(withdrawableAmount);
     setWithdrawAmount(Number(withdrawableAmount));
-    setMaxWithdrawSet(maxWithdrawBalance);
+    // setMaxWithdrawSet(maxWithdrawBalance);
   };
 
   return (
@@ -335,16 +325,23 @@ const UsdtVault = () => {
                               <p className='Text1'>&nbsp; 0.75 %</p>
                             </div>
                           </div>
+                          <div className='StakingBox'>
+                            <div className='StakingInfo'>
+                              <p className='HeaderText'>LOCK TIME : </p>
+                              {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
+                              <p className='Text1'>&nbsp; 2 WEEKS</p>
+                            </div>
+                          </div>
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Pending Rewards Amount : </p>
-                              <p className='Text1'>&nbsp; {userPendingRewards.toFixed(2)} USDT</p>
+                              <p className='Text1'>&nbsp; {userPendingRewards.toFixed(4)} USDT</p>
                             </div>
                           </div>
                           <div className='StakingBox1'>
                             <div className='LpBalance UserBalance'>
                               <p className='HeaderText'>Withdrawable Amount : </p>
-                              <p className='Text1'>&nbsp; {withdrawableAmount.toFixed(2)} USDT</p>
+                              <p className='Text1'>&nbsp; {withdrawableAmount.toFixed(4)} USDT</p>
                             </div>
                           </div>
                           <section className='inputPanel'>
@@ -397,8 +394,8 @@ const UsdtVault = () => {
                                         :
                                         <></>
                                       } */}
-                                      {Number(userAmount) > 0 ?
-                                        <button disabled={false} onClick={() => onTokenWithdraw()} className="LockButton">Withdraw USDT Now!</button>
+                                      {Number(withdrawableAmount) > 0 ?
+                                        <button disabled={false} onClick={() => onTokenWithdraw(withdrawAmount)} className="LockButton">Withdraw USDT Now!</button>
                                         :
                                         <></>
                                       }

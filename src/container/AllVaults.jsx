@@ -18,7 +18,7 @@ const AllVaults = () => {
   const [tokenAmount2, setTokenAmount2] = useState(0);
   let [confirming1, setConfirming1] = useState(false);
   let [confirming2, setConfirming2] = useState(false);
-  const StakingAddress = "0x7ce732D06276b937037F7C3B5C46c75d72785f8C";
+  const StakingAddress = "0x2E12C15C168bF1134260443B03Cd96f4d65935ec";
   const UsdtAddress = "0x3f1dB0e5E834e8bbcdEf4477c86919064274c25d";
   const EthAddress = "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14";
   const BtcAddress = "0x92f3B59a79bFf5dc60c0d59eA13a44D082B2bdFC";
