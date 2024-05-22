@@ -53,8 +53,8 @@ const Header = () => {
             <div className={styles.HeaderContainer}>
                 <div className={styles.HeaderContainer}>
                     <section className={styles.BalanceSection}>
-                        <img src={mainLogoImg} alt="logo" />
-                        <img src={mainLogoTxt} alt="txt" />
+                        <a href="/"><img src={mainLogoImg} alt="logo" /></a>
+                        <a href="/"><img src={mainLogoTxt} alt="txt" /></a>
                     </section>
                     <section className={styles.ButtonContainer}>
                         <div className={styles.connectButtonBox}>
@@ -76,7 +76,7 @@ const Header = () => {
                                         :
                                         <button
                                             className="ConnectButton" type="submit"
-                                            onClick={() => switchNetwork?.(1)}
+                                            onClick={() => switchNetwork?.(11155111)}
                                         >
                                             {'To ETH'}
                                             {isLoading && pendingChainId === 5 && ' (switching)'}
@@ -90,9 +90,9 @@ const Header = () => {
             </div>
 
             <div className={styles.HeaderContent}>
-                <a href="/UsdtVault"><img src={UsdtLogo} alt="" className={styles.headerlogo} /></a>
-                <a href="/EthVault"><img src={EthLogo} alt="" className={styles.headerlogo} /></a>
-                <a href="/BtcVault"><img src={BtcLogo} alt="" className={styles.headerlogo} /></a>
+                <a href={ isConnected? "/UsdtVault" : "/"}><img src={UsdtLogo} alt="" className={styles.headerlogo} /></a>
+                <a href={ isConnected? "/EthVault" : "/"}><img src={EthLogo} alt="" className={styles.headerlogo} /></a>
+                <a href={ isConnected? "/BtcVault" : "/"}><img src={BtcLogo} alt="" className={styles.headerlogo} /></a>
             </div>
         </div>
     );

@@ -317,6 +317,13 @@ const EthVault = () => {
                         </div>
                       </TabPanel>
                     </Tabs>
+                    <div className="explanation">
+                      <p>This vault utilizes a non-directional trading strategy to earn high yields. </p>
+                      <p> By taking simultaneous long and short positions,</p>
+                      <p> it earns funding from the short position while avoiding directional risk.</p>
+                      <p>ETH vault profits are invested to dollar-cost average (DCA) into ETH,</p> 
+                      <p>generating in-kind yield and serving as hedging.</p>
+                    </div>
                     {/* </div> */}
                   </section>
 

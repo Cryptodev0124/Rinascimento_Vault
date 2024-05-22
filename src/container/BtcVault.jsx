@@ -419,6 +419,13 @@ const BtcVault = () => {
                         </div>
                       </TabPanel>
                     </Tabs>
+                    <div className="explanation">
+                      <p>This vault utilizes a non-directional trading strategy to achieve high yields. </p>
+                      <p> By taking simultaneous long and short positions,</p>
+                      <p> it earns funding from the short position while avoiding directional risk.</p>
+                      <p>wBTC vault profits are invested to dollar-cost average (DCA) into BTC,</p> 
+                      <p>generating in-kind yield and serving as hedging.</p>
+                    </div>
                     {/* </div> */}
                   </section>
 

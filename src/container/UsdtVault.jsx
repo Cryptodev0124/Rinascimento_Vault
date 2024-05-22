@@ -212,7 +212,6 @@ const UsdtVault = () => {
                     <section className="DepositBoxHeader">
                       <p className="ContractContentTextTitle">USDT Vault</p>
                     </section>
-                    {/* <div className='StakingContents'> */}
                     <Tabs className="TabContainer">
                       <TabList className="TabList">
                         <Tab className="TabTitle1">Deposit</Tab>
@@ -419,7 +418,11 @@ const UsdtVault = () => {
                         </div>
                       </TabPanel>
                     </Tabs>
-                    {/* </div> */}
+                    <div className="explanation">
+                      <p>This vault utilizes a non-directional trading strategy to achieve high yields. </p>
+                      <p> By taking simultaneous long and short positions,</p>
+                      <p> it earns funding from the short position while avoiding directional risk.</p>
+                    </div>
                   </section>
 
                 </>

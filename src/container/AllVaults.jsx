@@ -9,6 +9,9 @@ import Input from "../components/Input.tsx";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useWeb3Modal } from "@web3modal/react";
 import { waitForTransaction, readContract, writeContract } from '@wagmi/core'
+import UsdtLogo from "../icons/usdt.png";
+import EthLogo from "../icons/eth.png";
+import BtcLogo from "../icons/btc.png";
 
 const AllVaults = () => {
   const { open } = useWeb3Modal();
@@ -85,11 +88,11 @@ const AllVaults = () => {
         const usdtAllowance = await readContract({ address: UsdtAddress, abi: UsdtAbi, functionName: 'allowance', args: [address, StakingAddress] });
         const btcAllowance = await readContract({ address: BtcAddress, abi: BtcAbi, functionName: 'allowance', args: [address, StakingAddress] });
         const usdtAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalUsdtDeposits', args: [address] });
-        const ethAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalEthDeposits', args: [address]});
+        const ethAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalEthDeposits', args: [address] });
         const btcAmount = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserTotalBtcDeposits', args: [address] });
-        const usdtPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserUsdtDividends', args: [address]});
-        const ethPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserEthDividends', args: [address]});
-        const btcPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserBtcDividends', args: [address]});
+        const usdtPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserUsdtDividends', args: [address] });
+        const ethPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserEthDividends', args: [address] });
+        const btcPendingRewards = await readContract({ address: StakingAddress, abi: StakingAbi, functionName: 'getUserBtcDividends', args: [address] });
         const APY_USDT = 24;
         const APY_ETH = 17;
         const APY_BTC = 8;
@@ -124,106 +127,109 @@ const AllVaults = () => {
   return (
     <main>
       <div className="GlobalContainer">
+
+        <div className="MainDashboard">
+          <section className="ContactBox">
+            <>
+              <section className="ContractContainer">
+                <section className="DepositBoxHeader">
+                  <p className="ContractContentTextTitle">All Vaults</p>
+                </section>
+                <div className='StakingContents'>
+                  <a className='PlanBox' href={ isConnected? "/UsdtVault" : "/"}>
+                    <p className="ContractContentTextTitlePlan"><img src={UsdtLogo} alt="" /></p>
+
+                    <div className='StakingBoxs'>
+                      <div className='StakingBox'>
+                        <div className='StakingInfo'>
+                          <p className='HeaderText'>TVL : </p>
+                          <p className='Text1'>&nbsp; {tvlUsdt.toFixed(0)} USDT &nbsp;  &nbsp; </p>
+                        </div>
+                      </div>
+                      <div className='StakingBox'>
+                        <div className='StakingInfo'>
+                          <p className='HeaderText'>APY : </p>
+                          {/* <p className='Text1'>&nbsp; {Number(apy1).toFixed(2)}  %</p> */}
+                          <p className='Text1'>&nbsp; 24  %</p>
+                        </div>
+                      </div>
+                      <div className='StakingBox1'>
+                        <div className='LpBalance UserBalance'>
+                          <p className='HeaderText'>Your Staked Amount : </p>
+                          <p className='Text1'>&nbsp; {userUsdtAmount} USDT</p>
+                        </div>
+                        <div className='LpBalance UserBalance'>
+                          <p className='HeaderText'>Pending Rewards Amount : </p>
+                          <p className='Text1'>&nbsp; {userUsdtPendingRewards.toFixed(2)} USDT</p>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  <a className='PlanBox' href={ isConnected? "/EthVault" : "/"}>
+                    <p className="ContractContentTextTitlePlan"><img src={EthLogo} alt="" /></p>
+                    <div className='StakingBoxs'>
+                      <div className='StakingBox'>
+                        <div className='StakingInfo'>
+                          <p className='HeaderText'>TVL : </p>
+                          <p className='Text1'>&nbsp; {tvlEth.toFixed(0)} ETH  &nbsp;  &nbsp;</p>
+                        </div>
+                      </div>
+                      <div className='StakingBox'>
+                        <div className='StakingInfo'>
+                          <p className='HeaderText'>APY : </p>
+                          {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
+                          <p className='Text1'>&nbsp; 17 %</p>
+                        </div>
+                      </div>
+                      <div className='StakingBox1'>
+                        <div className='LpBalance UserBalance'>
+                          <p className='HeaderText'>Your Staked Amount : </p>
+                          <p className='Text1'>&nbsp; {userEthAmount} ETH</p>
+                        </div>
+                        <div className='LpBalance UserBalance'>
+                          <p className='HeaderText'>Pending Rewards Amount : </p>
+                          <p className='Text1'>&nbsp; {userEthPendingRewards.toFixed(2)} ETH</p>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  <a className='PlanBox' href={ isConnected? "/BtcVault" : "/"}>
+                    <p className="ContractContentTextTitlePlan"><img src={BtcLogo} alt="" /></p>
+                    <div className='StakingBoxs'>
+                      <div className='StakingBox'>
+                        <div className='StakingInfo'>
+                          <p className='HeaderText'>TVL : </p>
+                          <p className='Text1'>&nbsp; {tvlBtc.toFixed(0)} BTC  &nbsp;  &nbsp;</p>
+                        </div>
+                      </div>
+                      <div className='StakingBox'>
+                        <div className='StakingInfo'>
+                          <p className='HeaderText'>APY : </p>
+                          {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
+                          <p className='Text1'>&nbsp; 8 %</p>
+                        </div>
+                      </div>
+                      <div className='StakingBox1'>
+                        <div className='LpBalance UserBalance'>
+                          <p className='HeaderText'>Your Staked Amount : </p>
+                          <p className='Text1'>&nbsp; {userBtcAmount} BTC</p>
+                        </div>
+                        <div className='LpBalance UserBalance'>
+                          <p className='HeaderText'>Pending Rewards Amount : </p>
+                          <p className='Text1'>&nbsp; {userBtcPendingRewards.toFixed(2)} BTC</p>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </section>
+
+            </>
+          </section>
+        </div>
         {address ?
           chain?.id === 11155111 ?
-            <div className="MainDashboard">
-              <section className="ContactBox">
-                <>
-                  <section className="ContractContainer">
-                    <section className="DepositBoxHeader">
-                      <p className="ContractContentTextTitle">All Vaults</p>
-                    </section>
-                    <div className='StakingContents'>
-                      <a className='PlanBox' href="/UsdtVault">
-                        <p className="ContractContentTextTitlePlan">USDT</p>
-                        <div className='StakingBoxs'>
-                          <div className='StakingBox'>
-                            <div className='StakingInfo'>
-                              <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvlUsdt.toFixed(0)} USDT &nbsp;  &nbsp; </p>
-                            </div>
-                          </div>
-                          <div className='StakingBox'>
-                            <div className='StakingInfo'>
-                              <p className='HeaderText'>APY : </p>
-                              {/* <p className='Text1'>&nbsp; {Number(apy1).toFixed(2)}  %</p> */}
-                              <p className='Text1'>&nbsp; 24  %</p>
-                            </div>
-                          </div>
-                          <div className='StakingBox1'>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userUsdtAmount} USDT</p>
-                            </div>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Rewards Amount : </p>
-                              <p className='Text1'>&nbsp; {userUsdtPendingRewards.toFixed(2)} USDT</p>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                      <a className='PlanBox' href="/EthVault">
-                        <p class="ContractContentTextTitlePlan">ETH</p>
-                        <div className='StakingBoxs'>
-                          <div className='StakingBox'>
-                            <div className='StakingInfo'>
-                              <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvlEth.toFixed(0)} ETH  &nbsp;  &nbsp;</p>
-                            </div>
-                          </div>
-                          <div className='StakingBox'>
-                            <div className='StakingInfo'>
-                              <p className='HeaderText'>APY : </p>
-                              {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
-                              <p className='Text1'>&nbsp; 17 %</p>
-                            </div>
-                          </div>
-                          <div className='StakingBox1'>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userEthAmount} ETH</p>
-                            </div>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Rewards Amount : </p>
-                              <p className='Text1'>&nbsp; {userEthPendingRewards.toFixed(2)} ETH</p>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                      <a className='PlanBox' href="/BtcVault">
-                        <p class="ContractContentTextTitlePlan">BTC</p>
-                        <div className='StakingBoxs'>
-                          <div className='StakingBox'>
-                            <div className='StakingInfo'>
-                              <p className='HeaderText'>TVL : </p>
-                              <p className='Text1'>&nbsp; {tvlBtc.toFixed(0)} BTC  &nbsp;  &nbsp;</p>
-                            </div>
-                          </div>
-                          <div className='StakingBox'>
-                            <div className='StakingInfo'>
-                              <p className='HeaderText'>APY : </p>
-                              {/* <p className='Text1'>&nbsp; {Number(apy2).toFixed(2)} %</p> */}
-                              <p className='Text1'>&nbsp; 8 %</p>
-                            </div>
-                          </div>
-                          <div className='StakingBox1'>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Your Staked Amount : </p>
-                              <p className='Text1'>&nbsp; {userBtcAmount} BTC</p>
-                            </div>
-                            <div className='LpBalance UserBalance'>
-                              <p className='HeaderText'>Pending Rewards Amount : </p>
-                              <p className='Text1'>&nbsp; {userBtcPendingRewards.toFixed(2)} BTC</p>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </section>
-
-                </>
-              </section>
-            </div>
+            <></>
             :
             <section className="ConnectWalletBox">
               <p className="FirstNote">Please change Network to Ethereum Mainnet</p>

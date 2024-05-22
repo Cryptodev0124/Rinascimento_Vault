@@ -195,8 +195,8 @@
     height: -webkit-fill-available;
     margin: auto;
     /* margin-bottom: 200px; */
-    margin-top: 10%;
-    margin-bottom: 20%;
+    margin-top: 5%;
+    /* margin-bottom: 20%; */
 }
 
 .ConnectWalletBoxButton {
@@ -276,7 +276,7 @@
     flex-direction: column;
     padding-bottom: 30px;
     border-radius: 70px;
-    margin: 140px 20px;
+    margin: 60px 20px;
 }
 
 
@@ -352,20 +352,22 @@ input[type=number] {
 }
 
 .ContractContentTextTitle {
-    font-size: 25px;
+    font-size: 35px;
     color: white;
     text-align: center;
     padding-bottom: 30px;
+    font-weight: 700;
 }
 
 .ContractContentTextTitlePlan{
     position: absolute;
-    margin: 0px;
-    padding: 10px 25px;
+    padding: 10px 20px;
     margin-left: 50px;
-    background: #3370ff;
+    margin-top: -36px;
+    /* background: #3370ff; */
     border-radius: 20px;
     font-size: 20px;
+    width: 22%;
 }
 
 .PlanBox{
@@ -445,6 +447,20 @@ input[type=number] {
 
 .StakingBoxs:hover{
     border: 1px solid #3370ff;
+}
+
+.explanation {
+    padding-bottom: 20px;
+    width: -webkit-fill-available;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 30px;
+}
+
+.explanation p {
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 .StakingContents{
@@ -584,7 +600,7 @@ input[type=number] {
         padding: 0px;
     }
     .ContractContentTextTitlePlan{
-        width: 40%;
+        width: 50% !important; 
     }
 
     .HeaderContainer {
@@ -644,5 +660,8 @@ input[type=number] {
 @media screen and (max-width: 1024px) {
     .GlobalContainer {
         margin: auto 20px;
+    }
+    .ContractContentTextTitlePlan{
+        width: 80%;
     }
 }
