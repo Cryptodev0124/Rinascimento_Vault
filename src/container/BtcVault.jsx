@@ -18,8 +18,8 @@ const BtcVault = () => {
   const [tokenAmount, setTokenAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   let [confirming, setConfirming] = useState(false);
-  const StakingAddress = "0x2E12C15C168bF1134260443B03Cd96f4d65935ec";
-  const TokenAddress = "0x92f3B59a79bFf5dc60c0d59eA13a44D082B2bdFC";
+  const StakingAddress = "0x668faeD2632b537095c6A43F8bB1D6421ecBCdD7";
+  const TokenAddress = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599";
 
   const { switchNetwork } = useSwitchNetwork()
 
@@ -40,13 +40,13 @@ const BtcVault = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(11155111)
+        switchNetwork?.(1)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 11155111)
+      if (chain.id !== 1)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -79,11 +79,11 @@ const BtcVault = () => {
         const APY = 8;
         setApy(APY);
         setTvl(Number(tvl) / Math.pow(10, 18));
-        setUserAmount(Number(userStakedAmount) / Math.pow(10, 18));
-        setUserPendingRewards(Number(pendingRewards) / Math.pow(10, 18));
-        setWithdrawableAmount(Number(withdrawableAmount) / Math.pow(10, 18));
+        setUserAmount(Number(userStakedAmount) / Math.pow(10, 8));
+        setUserPendingRewards(Number(pendingRewards) / Math.pow(10, 8));
+        setWithdrawableAmount(Number(withdrawableAmount) / Math.pow(10, 8));
         // setLockingEnabled(totalInfo[4]);
-        setAllowance(Number(tokenAllowance) / Math.pow(10, 18));
+        setAllowance(Number(tokenAllowance) / Math.pow(10, 8));
         setTokenBalance(tokenAmount);
         setMaxBalance(tokenAmount);
         setMaxWithdrawBalance(withdrawableAmount);
@@ -91,7 +91,7 @@ const BtcVault = () => {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 11155111 && address && (confirming === false)) {
+    if (isConnected === true && chain?.id === 1 && address && (confirming === false)) {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming])
@@ -124,7 +124,7 @@ const BtcVault = () => {
     try {
       setConfirming(true);
       let TokenAmounts;
-      TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 18)).toString(16)}`;
+      TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 8)).toString(16)}`;
       const deposit = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
@@ -171,7 +171,7 @@ const BtcVault = () => {
     try {
       setConfirming(true);
       let WithdrawAmounts;
-      WithdrawAmounts = `0x${(Number(amount) * (10 ** 18)).toString(16)}`;
+      WithdrawAmounts = `0x${(Number(amount) * (10 ** 8)).toString(16)}`;
       const withdraw = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
@@ -191,7 +191,7 @@ const BtcVault = () => {
   };
 
   const setMaxAmount = async () => {
-    setTokenAmount(Number(tokenBalance) / Math.pow(10, 18));
+    setTokenAmount(Number(tokenBalance) / Math.pow(10, 8));
     setMaxSet(maxBalance);
   };
 
@@ -204,7 +204,7 @@ const BtcVault = () => {
     <main>
       <div className="GlobalContainer">
         {address ?
-          chain?.id === 11155111 ?
+          chain?.id === 1 ?
             <div className="MainDashboard">
               <section className="ContactBox">
                 <>

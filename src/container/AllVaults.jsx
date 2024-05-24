@@ -21,10 +21,10 @@ const AllVaults = () => {
   const [tokenAmount2, setTokenAmount2] = useState(0);
   let [confirming1, setConfirming1] = useState(false);
   let [confirming2, setConfirming2] = useState(false);
-  const StakingAddress = "0x2E12C15C168bF1134260443B03Cd96f4d65935ec";
-  const UsdtAddress = "0x3f1dB0e5E834e8bbcdEf4477c86919064274c25d";
+  const StakingAddress = "0x668faeD2632b537095c6A43F8bB1D6421ecBCdD7";
+  const UsdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
   const EthAddress = "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14";
-  const BtcAddress = "0x92f3B59a79bFf5dc60c0d59eA13a44D082B2bdFC";
+  const BtcAddress = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599";
 
   const { switchNetwork } = useSwitchNetwork()
 
@@ -53,13 +53,13 @@ const AllVaults = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(11155111)
+        switchNetwork?.(1)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 11155111)
+      if (chain.id !== 1)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -99,18 +99,18 @@ const AllVaults = () => {
         setApyUsdt(APY_USDT);
         setApyEth(APY_ETH);
         setApyBtc(APY_BTC);
-        setTvlUsdt(Number(tvlUsdt) / Math.pow(10, 18));
+        setTvlUsdt(Number(tvlUsdt) / Math.pow(10, 6));
         setTvlEth(Number(tvlEth) / Math.pow(10, 18));
-        setTvlBtc(Number(tvlBtc) / Math.pow(10, 18));
-        setUserUsdtAmount(Number(usdtAmount) / Math.pow(10, 18));
+        setTvlBtc(Number(tvlBtc) / Math.pow(10, 8));
+        setUserUsdtAmount(Number(usdtAmount) / Math.pow(10, 6));
         setUserEthAmount(Number(ethAmount) / Math.pow(10, 18));
-        setUserBtcAmount(Number(btcAmount) / Math.pow(10, 18));
-        setUserUsdtPendingRewards(Number(usdtPendingRewards) / Math.pow(10, 18));
+        setUserBtcAmount(Number(btcAmount) / Math.pow(10, 8));
+        setUserUsdtPendingRewards(Number(usdtPendingRewards) / Math.pow(10, 6));
         setUserEthPendingRewards(Number(ethPendingRewards) / Math.pow(10, 18));
-        setUserBtcPendingRewards(Number(btcPendingRewards) / Math.pow(10, 18));
+        setUserBtcPendingRewards(Number(btcPendingRewards) / Math.pow(10, 8));
         setLockingEnabled(false);
-        setAllowanceUsdt(Number(usdtAllowance) / Math.pow(10, 18));
-        setAllowanceBtc(Number(btcAllowance) / Math.pow(10, 18));
+        setAllowanceUsdt(Number(usdtAllowance) / Math.pow(10, 6));
+        setAllowanceBtc(Number(btcAllowance) / Math.pow(10, 8));
         setUsdtBalance(usdtAmount);
         setEthBalance(usdtAmount);
         setBtcBalance(btcAmount);
@@ -119,7 +119,7 @@ const AllVaults = () => {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 11155111 && address && (confirming1 === false || confirming2 === false)) {
+    if (isConnected === true && chain?.id === 1 && address && (confirming1 === false || confirming2 === false)) {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming1, confirming2])
@@ -228,7 +228,7 @@ const AllVaults = () => {
           </section>
         </div>
         {address ?
-          chain?.id === 11155111 ?
+          chain?.id === 1 ?
             <></>
             :
             <section className="ConnectWalletBox">

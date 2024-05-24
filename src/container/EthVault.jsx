@@ -18,7 +18,7 @@ const EthVault = () => {
   const { chain } = useNetwork();
   const [ethAmount, setEthAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
-  const StakingAddress = "0x2E12C15C168bF1134260443B03Cd96f4d65935ec";
+  const StakingAddress = "0x668faeD2632b537095c6A43F8bB1D6421ecBCdD7";
 
   const { switchNetwork } = useSwitchNetwork()
 
@@ -36,13 +36,13 @@ const EthVault = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(11155111)
+        switchNetwork?.(1)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 11155111)
+      if (chain.id !== 1)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -83,7 +83,7 @@ const EthVault = () => {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 11155111 && address) {
+    if (isConnected === true && chain?.id === 1 && address) {
       FetchStakingData();
     }
   }, [isConnected, address, chain])
@@ -169,7 +169,7 @@ const EthVault = () => {
     <main>
       <div className="GlobalContainer">
         {address ?
-          chain?.id === 11155111 ?
+          chain?.id === 1 ?
             <div className="MainDashboard">
               <section className="ContactBox">
                 <>

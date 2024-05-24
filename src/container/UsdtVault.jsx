@@ -18,8 +18,8 @@ const UsdtVault = () => {
   const [tokenAmount, setTokenAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   let [confirming, setConfirming] = useState(false);
-  const StakingAddress = "0x2E12C15C168bF1134260443B03Cd96f4d65935ec";
-  const TokenAddress = "0x3f1dB0e5E834e8bbcdEf4477c86919064274c25d";
+  const StakingAddress = "0x668faeD2632b537095c6A43F8bB1D6421ecBCdD7";
+  const TokenAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
   const { switchNetwork } = useSwitchNetwork()
 
@@ -40,13 +40,13 @@ const UsdtVault = () => {
   useEffect(() => {
     const switchChain = async () => {
       try {
-        switchNetwork?.(11155111)
+        switchNetwork?.(1)
       } catch (e) {
         console.error(e)
       }
     }
     if (isConnected === true) {
-      if (chain.id !== 11155111)
+      if (chain.id !== 1)
         switchChain();
     }
   }, [isConnected, chain?.id, switchNetwork])
@@ -78,12 +78,12 @@ const UsdtVault = () => {
         // const rewardPerYear = Number(totalInfo[1]) * 60 * 60 * 24 * 365;
         const APY = 24;
         setApy(APY);
-        setTvl(Number(tvl) / Math.pow(10, 18));
-        setUserAmount(Number(userStakedAmount) / Math.pow(10, 18));
-        setUserPendingRewards(Number(pendingRewards) / Math.pow(10, 18));
-        setWithdrawableAmount(Number(withdrawableAmount) / Math.pow(10, 18));
+        setTvl(Number(tvl) / Math.pow(10, 6));
+        setUserAmount(Number(userStakedAmount) / Math.pow(10, 6));
+        setUserPendingRewards(Number(pendingRewards) / Math.pow(10, 6));
+        setWithdrawableAmount(Number(withdrawableAmount) / Math.pow(10, 6));
         // setLockingEnabled(totalInfo[4]);
-        setAllowance(Number(tokenAllowance) / Math.pow(10, 18));
+        setAllowance(Number(tokenAllowance) / Math.pow(10, 6));
         setTokenBalance(tokenAmount);
         setMaxBalance(tokenAmount);
         setMaxWithdrawBalance(withdrawableAmount);
@@ -91,7 +91,7 @@ const UsdtVault = () => {
         console.error(e)
       }
     }
-    if (isConnected === true && chain?.id === 11155111 && address && (confirming === false)) {
+    if (isConnected === true && chain?.id === 1 && address && (confirming === false)) {
       FetchStakingData();
     }
   }, [isConnected, address, chain, confirming])
@@ -124,7 +124,7 @@ const UsdtVault = () => {
     try {
       setConfirming(true);
       let TokenAmounts;
-      TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 18)).toString(16)}`;
+      TokenAmounts = `0x${(Number(tokenAmounts) * (10 ** 6)).toString(16)}`;
       const deposit = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
@@ -171,7 +171,7 @@ const UsdtVault = () => {
     try {
       setConfirming(true);
       let WithdrawAmounts;
-      WithdrawAmounts = `0x${(Number(amount) * (10 ** 18)).toString(16)}`;
+      WithdrawAmounts = `0x${(Number(amount) * (10 ** 6)).toString(16)}`;
       const withdraw = await writeContract({
         address: StakingAddress,
         abi: StakingAbi,
@@ -191,7 +191,7 @@ const UsdtVault = () => {
   };
 
   const setMaxAmount = async () => {
-    setTokenAmount(Number(tokenBalance) / Math.pow(10, 18));
+    setTokenAmount(Number(tokenBalance) / Math.pow(10, 6));
     setMaxSet(maxBalance);
   };
 
@@ -204,7 +204,7 @@ const UsdtVault = () => {
     <main>
       <div className="GlobalContainer">
         {address ?
-          chain?.id === 11155111 ?
+          chain?.id === 1 ?
             <div className="MainDashboard">
               <section className="ContactBox">
                 <>
