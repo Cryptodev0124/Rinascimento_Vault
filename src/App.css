@@ -11,15 +11,18 @@
 body {
     font-family: Gilroy-medium;
     font-style: normal;
-    background-color: #161616;
-    background-size: auto;
+    /* background-color: #161616; */
+    background-image: url(./icons/background.png);
+    background-repeat: no-repeat;
+    height: 100%;
+    background-size: cover;
     overflow: overlay;
     margin: 0;
     padding: 0;
 }
 
 main {
-    height: 100vh;
+    /* height: 100vh; */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;

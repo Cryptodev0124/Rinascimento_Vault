@@ -8,6 +8,7 @@ import UsdtLogo from "../icons/usdt.png";
 import EthLogo from "../icons/eth.png";
 import BtcLogo from "../icons/btc.png";
 
+
 const Header = () => {
     const { address, isConnected } = useAccount();
     const { open } = useWeb3Modal();
@@ -49,50 +50,47 @@ const Header = () => {
     }, [isConnected, chain, switchNetwork])
 
     return (
-        <div className={styles.HeaderBox}>
+        <div className={styles.HeaderBox} id="myHeader">
             <div className={styles.HeaderContainer}>
-                <div className={styles.HeaderContainer}>
-                    <section className={styles.BalanceSection}>
-                        <a href="/"><img src={mainLogoImg} alt="logo" /></a>
-                        <a href="/"><img src={mainLogoTxt} alt="txt" /></a>
-                    </section>
-                    <section className={styles.ButtonContainer}>
-                        <div className={styles.connectButtonBox}>
-                            {!isConnected ?
-                                <>
-                                    <button className="ConnectButton" type="submit" onClick={() => {
-                                        onConnectWallet();
-                                    }}>Enter App / Connect</button>
-                                </>
-                                :
-                                <section className={styles.ConnectWalletSection}>
-                                    {chain?.id === 1 ?
-                                        <button
-                                            className="ConnectButton" type="submit"
-                                            onClick={() => onConnect()}
-                                        >
-                                            {address.slice(0, 5) + '...' + address.slice(-5)}
-                                        </button>
-                                        :
-                                        <button
-                                            className="ConnectButton" type="submit"
-                                            onClick={() => switchNetwork?.(1)}
-                                        >
-                                            {'To ETH'}
-                                            {isLoading && pendingChainId === 5 && ' (switching)'}
-                                        </button>
-                                    }
-                                </section>
-                            }
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <div className={styles.HeaderContent}>
-                <a href={ isConnected? "/UsdtVault" : "/"}><img src={UsdtLogo} alt="" className={styles.headerlogo} /></a>
-                <a href={ isConnected? "/EthVault" : "/"}><img src={EthLogo} alt="" className={styles.headerlogo} /></a>
-                <a href={ isConnected? "/BtcVault" : "/"}><img src={BtcLogo} alt="" className={styles.headerlogo} /></a>
+                <section className={styles.BalanceSection}>
+                    <a href="/"><img src={mainLogoImg} alt="logo" /></a>
+                    <a href="/"><img src={mainLogoTxt} alt="txt" /></a>
+                </section>
+                <section className={styles.HeaderContent}>
+                    <a href={isConnected ? "/UsdtVault" : "/"}><img src={UsdtLogo} alt="" className={styles.headerlogo} /></a>
+                    <a href={isConnected ? "/EthVault" : "/"}><img src={EthLogo} alt="" className={styles.headerlogo} /></a>
+                    <a href={isConnected ? "/BtcVault" : "/"}><img src={BtcLogo} alt="" className={styles.headerlogo} /></a>
+                </section>
+                <section className={styles.ButtonContainer}>
+                    <div className={styles.connectButtonBox}>
+                        {!isConnected ?
+                            <>
+                                <button className="ConnectButton" type="submit" onClick={() => {
+                                    onConnectWallet();
+                                }}>Enter App / Connect</button>
+                            </>
+                            :
+                            <section className={styles.ConnectWalletSection}>
+                                {chain?.id === 1 ?
+                                    <button
+                                        className="ConnectButton" type="submit"
+                                        onClick={() => onConnect()}
+                                    >
+                                        {address.slice(0, 5) + '...' + address.slice(-5)}
+                                    </button>
+                                    :
+                                    <button
+                                        className="ConnectButton" type="submit"
+                                        onClick={() => switchNetwork?.(1)}
+                                    >
+                                        {'To ETH'}
+                                        {isLoading && pendingChainId === 5 && ' (switching)'}
+                                    </button>
+                                }
+                            </section>
+                        }
+                    </div>
+                </section>
             </div>
         </div>
     );
