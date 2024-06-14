@@ -18,6 +18,7 @@ import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from "@web3modal/react";
+import Type from "./Type";
 
 const projectId = '7c7fff7dcdf68099b497f697a163e920'
 
@@ -70,6 +71,7 @@ export default function App() {
                 <div className={styles.App}>
                     <WagmiConfig config={config}>
                         <Header />
+                        <Type />
                         <Switch>
                             <Route path="/" exact>
                                 <AllVaults />
