@@ -49,6 +49,9 @@
     }
     .Line2 {
         display: flex;
+        @media screen and (max-width: 414px) {
+            flex-direction: column;
+        }
     }
     .ChangeableText {
         background: linear-gradient(73.6deg, #34edb3 2.11%, #00d1ff);
@@ -63,16 +66,45 @@
     }
     .heroBackground {
         .bgEllipse1 {
-            height: 9.47rem;
+            height: 60.47rem;
             left: -0.1rem;
-            width: 7.12rem;
+            width: 57.12rem;
             position: absolute;
             top: -0.1rem;
             z-index: -2;
+            @media screen and (max-width: 375px) {
+                height: 100%;
+                width: 100%;
+            }
         }
         .bgEllipse1 img {
             height: 100%;
             width: 100%;
+        }
+        .bgEllipse2 {
+            height: 60.42rem;
+            right: -0.1rem;
+            width: 39.93rem;
+            position: absolute;
+            top: -0.1rem;
+            z-index: -2;
+            @media screen and (max-width: 375px) {
+                height: 100%;
+                width: 100%;
+            }
+        }
+        .bgEllipse2 img {
+            height: 100%;
+            width: 100%;
+        }
+        .bgCircles {
+            height: 5.79rem;
+            left: 0;
+            position: absolute;
+            top: 0;
+            transform-origin: top left;
+            width: 9.03rem;
+            z-index: -1;
         }
     }
     .lazyLoaded {

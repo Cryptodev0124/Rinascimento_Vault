@@ -74,6 +74,16 @@ export default function App() {
                             <div className={styles.bgEllipse1}>
                                 <img data-src="/assets/img/Ellipse1.png" className={styles.lazyLoaded} data-load-priority="5" alt src="/assets/img/Ellipse1.png" />
                             </div>
+                            <div className={styles.bgEllipse2}>
+                                <img data-src="/assets/img/Ellipse2.png" className={styles.lazyLoaded} data-load-priority="5" alt src="/assets/img/Ellipse2.png" />
+                            </div>
+                            <div className={styles.bgCircles}>
+                                <picture>
+                                    <source data-srcset="/assets/img/bgCircles1.svg" media="(max-width: 1024px)" srcSet="/assets/img/bgCircles1.svg" />
+                                    <source data-srcset="/assets/img/bgCircles2.svg" media="(min-width: 1025px)" srcSet="/assets/img/bgCircles2.svg" />
+                                    <img className={styles.lazyLoaded} data-load-priority="0" alt="circles" />
+                                </picture>
+                            </div>
                         </div>
                         <Header />
                         <Switch>
