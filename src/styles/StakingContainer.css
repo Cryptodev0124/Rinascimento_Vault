@@ -278,6 +278,7 @@
     border-radius: 70px;
     /* margin: 60px 20px; */
     margin-bottom: 0;
+    margin-top: 80px;
 }
 
 
@@ -363,7 +364,7 @@ input[type=number] {
 .ContractContentTextTitlePlan{
     position: absolute;
     padding: 10px 20px;
-    margin-left: 50px;
+    margin-left: 75px;
     margin-top: -36px;
     /* background: #3370ff; */
     border-radius: 20px;

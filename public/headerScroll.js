@@ -1,12 +1,13 @@
-window.onscroll = function() {myFunction()};
-var header = document.getElementById("myHeader");
-console.log("header", document.getElementById("myHeader"));
-var sticky = header.offsetTop;
+window.onscroll = function () { myFunction() };
 function myFunction() {
+    var header = document.getElementById("myHeader");
+    var sticky = header.offsetTop;
     if (window.pageYOffset > sticky) {
-        header.style.position = "block";
-        header.style.background = "#000000";
+        header.style.position = "fixed";
+        header.style.backdropFilter = "blur(24px)"
+        header.style.background = "#040f377a";
     } else {
-        header.style.background = "#ffffff";
+        header.style.background = "transparent";
+        header.style.backdropFilter = "none";
     }
 }

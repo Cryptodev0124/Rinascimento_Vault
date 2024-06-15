@@ -31,4 +31,52 @@
             line-height: 0rem;
         }
     }
+    .Introduction {
+        width: auto;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        font-size: 56px;
+        font-family: "Open Sans", sans-serif;
+        font-weight: 500;
+    }
+    .Line1 {
+        color: #ffffff;
+    }
+    .Line2 {
+        display: flex;
+    }
+    .ChangeableText {
+        background: linear-gradient(73.6deg, #34edb3 2.11%, #00d1ff);
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+        text-align: right;
+        margin-right: 10px;
+    }
+    .Line2Tail {
+        color: #ffffff;
+    }
+    .heroBackground {
+        .bgEllipse1 {
+            height: 9.47rem;
+            left: -0.1rem;
+            width: 7.12rem;
+            position: absolute;
+            top: -0.1rem;
+            z-index: -2;
+        }
+        .bgEllipse1 img {
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .lazyLoaded {
+        opacity: 1;
+        transition: opacity 0.4s ease;
+    }
 }

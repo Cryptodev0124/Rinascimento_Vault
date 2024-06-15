@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import '../App.css'
+import styles from "../pages/App.module.scss";
 import UsdtAbi from '../config/UsdtAbi.json'
 import BtcAbi from '../config/BtcAbi.json'
 import StakingAbi from '../config/StakingAbi.json'
@@ -12,6 +13,7 @@ import { waitForTransaction, readContract, writeContract } from '@wagmi/core'
 import UsdtLogo from "../icons/usdt.png";
 import EthLogo from "../icons/eth.png";
 import BtcLogo from "../icons/btc.png";
+import Type from "../Type";
 
 const AllVaults = () => {
   const { open } = useWeb3Modal();
@@ -132,11 +134,20 @@ const AllVaults = () => {
           <section className="ContactBox">
             <>
               <section className="ContractContainer">
-                <section className="DepositBoxHeader">
+                {/* <section className="DepositBoxHeader">
                   <p className="ContractContentTextTitle">All Vaults</p>
-                </section>
+                </section> */}
+                <div className={styles.Introduction}>
+                  <span className={styles.Line1}>Your Unique Edge For</span>
+                  <div className={styles.Line2}>
+                    <span className={styles.ChangeableText}>
+                      <Type />
+                    </span>
+                    <span className={styles.Line2Tail}>Yields</span>
+                  </div>
+                </div>
                 <div className='StakingContents'>
-                  <a className='PlanBox' href={ isConnected? "/UsdtVault" : "/"}>
+                  <a className='PlanBox' href={isConnected ? "/UsdtVault" : "/"}>
                     <p className="ContractContentTextTitlePlan"><img src={UsdtLogo} alt="" /></p>
 
                     <div className='StakingBoxs'>
@@ -165,7 +176,7 @@ const AllVaults = () => {
                       </div>
                     </div>
                   </a>
-                  <a className='PlanBox' href={ isConnected? "/EthVault" : "/"}>
+                  <a className='PlanBox' href={isConnected ? "/EthVault" : "/"}>
                     <p className="ContractContentTextTitlePlan"><img src={EthLogo} alt="" /></p>
                     <div className='StakingBoxs'>
                       <div className='StakingBox'>
@@ -193,7 +204,7 @@ const AllVaults = () => {
                       </div>
                     </div>
                   </a>
-                  <a className='PlanBox' href={ isConnected? "/BtcVault" : "/"}>
+                  <a className='PlanBox' href={isConnected ? "/BtcVault" : "/"}>
                     <p className="ContractContentTextTitlePlan"><img src={BtcLogo} alt="" /></p>
                     <div className='StakingBoxs'>
                       <div className='StakingBox'>
