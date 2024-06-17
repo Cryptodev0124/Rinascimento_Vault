@@ -43,15 +43,18 @@
         font-size: 56px;
         font-family: "Open Sans", sans-serif;
         font-weight: 500;
+        @media screen and (max-width: 1024px) {
+            font-size: 36px;
+        }
     }
     .Line1 {
         color: #ffffff;
     }
     .Line2 {
         display: flex;
-        @media screen and (max-width: 414px) {
-            flex-direction: column;
-        }
+        // @media screen and (max-width: 430px) {
+        //     flex-direction: column;
+        // }
     }
     .ChangeableText {
         background: linear-gradient(73.6deg, #34edb3 2.11%, #00d1ff);
@@ -75,6 +78,10 @@
             @media screen and (max-width: 375px) {
                 height: 100%;
                 width: 100%;
+            }
+            @media screen and (max-width: 768px) {
+                height: 32.47rem;
+                width: 22.12rem;
             }
         }
         .bgEllipse1 img {
@@ -105,6 +112,13 @@
             transform-origin: top left;
             width: 9.03rem;
             z-index: -1;
+        }
+        .bgCircles img {
+            display: block;
+            @media screen and (max-width: 540px) {
+                height: 300px;
+                width: 300px;
+            }
         }
     }
     .lazyLoaded {

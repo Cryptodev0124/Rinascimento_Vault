@@ -70,6 +70,7 @@ export default function App() {
             <QueryParamProvider>
                 <div className={styles.App}>
                     <WagmiConfig config={config}>
+                        <Header />
                         <div className={styles.heroBackground}>
                             <div className={styles.bgEllipse1}>
                                 <img data-src="/assets/img/Ellipse1.png" className={styles.lazyLoaded} data-load-priority="5" alt src="/assets/img/Ellipse1.png" />
@@ -85,7 +86,6 @@ export default function App() {
                                 </picture>
                             </div>
                         </div>
-                        <Header />
                         <Switch>
                             <Route path="/" exact>
                                 <AllVaults />

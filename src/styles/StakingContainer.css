@@ -362,14 +362,17 @@ input[type=number] {
 }
 
 .ContractContentTextTitlePlan{
-    position: absolute;
-    padding: 10px 20px;
-    margin-left: 75px;
-    margin-top: -36px;
+    /* position: absolute; */
+    /* padding: 10px 20px; */
+    /* margin-left: 75px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -60px;
     /* background: #3370ff; */
     border-radius: 20px;
     font-size: 20px;
-    width: 22%;
+    width: 100%;
 }
 
 .PlanBox{
@@ -610,9 +613,9 @@ input[type=number] {
     .GlobalContainer {
         padding: 0px;
     }
-    .ContractContentTextTitlePlan{
+    /* .ContractContentTextTitlePlan{
         width: 50% !important; 
-    }
+    } */
 
     .HeaderContainer {
         flex-direction: column;
@@ -670,9 +673,21 @@ input[type=number] {
 
 @media screen and (max-width: 1024px) {
     .GlobalContainer {
-        margin: auto 20px;
+        margin-top: 50px;
     }
-    .ContractContentTextTitlePlan{
+    /* .ContractContentTextTitlePlan{
         width: 80%;
+    } */
+}
+
+@media screen and (max-width: 768px) {
+    .GlobalContainer {
+        margin-top: 250px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .GlobalContainer {
+        margin-top: 280px;
     }
 }

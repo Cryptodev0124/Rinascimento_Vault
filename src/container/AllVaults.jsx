@@ -148,9 +148,10 @@ const AllVaults = () => {
                 </div>
                 <div className='StakingContents'>
                   <a className='PlanBox' href={isConnected ? "/UsdtVault" : "/"}>
-                    <p className="ContractContentTextTitlePlan"><img src={UsdtLogo} alt="" /></p>
-
                     <div className='StakingBoxs'>
+                      <div className='StakingBox1'>
+                        <div className="ContractContentTextTitlePlan"><img src={UsdtLogo} width="60px" alt="" /></div>
+                      </div>
                       <div className='StakingBox'>
                         <div className='StakingInfo'>
                           <p className='HeaderText'>TVL : </p>
@@ -177,8 +178,10 @@ const AllVaults = () => {
                     </div>
                   </a>
                   <a className='PlanBox' href={isConnected ? "/EthVault" : "/"}>
-                    <p className="ContractContentTextTitlePlan"><img src={EthLogo} alt="" /></p>
                     <div className='StakingBoxs'>
+                      <div className='StakingBox1'>
+                        <div className="ContractContentTextTitlePlan"><img src={EthLogo} width="60px" alt="" /></div>
+                      </div>
                       <div className='StakingBox'>
                         <div className='StakingInfo'>
                           <p className='HeaderText'>TVL : </p>
@@ -205,8 +208,10 @@ const AllVaults = () => {
                     </div>
                   </a>
                   <a className='PlanBox' href={isConnected ? "/BtcVault" : "/"}>
-                    <p className="ContractContentTextTitlePlan"><img src={BtcLogo} alt="" /></p>
                     <div className='StakingBoxs'>
+                      <div className='StakingBox1'>
+                        <div className="ContractContentTextTitlePlan"><img src={BtcLogo} width="60px" alt="" /></div>
+                      </div>
                       <div className='StakingBox'>
                         <div className='StakingInfo'>
                           <p className='HeaderText'>TVL : </p>
